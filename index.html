@@ -62,41 +62,10 @@
   .topbar{
     display:flex;
     align-items:center;
-    justify-content:space-between;
+    justify-content:flex-end;
     gap:1rem;
     flex-wrap:wrap;
     margin-bottom:clamp(1.25rem,3vw,2rem);
-  }
-
-  .brand{
-    display:flex;
-    align-items:center;
-    gap:.75rem;
-    background:rgba(255,255,255,.94);
-    border-radius:14px;
-    padding:.5rem .95rem;
-    box-shadow:0 4px 14px rgba(10,40,80,.16);
-  }
-
-  .brand__cp{
-    font-family:var(--font-display);
-    font-weight:900;
-    font-size:1.02rem;
-    letter-spacing:.02em;
-    color:var(--blue-700);
-  }
-  .brand__cp span{ color:var(--ink); }
-
-  .brand__div{
-    width:1.5px; height:20px;
-    background:var(--line);
-  }
-
-  .brand__makro{
-    font-family:var(--font-display);
-    font-weight:900;
-    font-size:1.02rem;
-    color:var(--red-600);
   }
 
   .lang-group{
@@ -578,12 +547,12 @@
     },
     {
       no:'03', color:'#C07A15', icon:'box',
-      nameEn:'WFDC Stock',
-      name:{ th:'ระบบเบิกจ่ายอุปกรณ์สำนักงาน', en:'Office supply requisition', mm:'ရုံးသုံးပစ္စည်း ထုတ်ယူရေး စနစ်' },
+      nameEn:'WFDC Stationary Stock',
+      name:{ th:'ระบบเบิกจ่ายอุปกรณ์สำนักงานและเครื่องเขียน', en:'Office supplies & stationery requisition', mm:'ရုံးသုံးပစ္စည်းနှင့် စာရေးကိရိယာ ထုတ်ယူရေး စနစ်' },
       desc:{
-        th:'เบิกอุปกรณ์สำนักงานสำหรับพนักงาน ตรวจสอบสต๊อกและประวัติการเบิก',
-        en:'Request office supplies, check stock levels, and view requisition history.',
-        mm:'ရုံးသုံးပစ္စည်းများ တောင်းခံခြင်း၊ စတော့လက်ကျန် စစ်ဆေးခြင်းနှင့် ထုတ်ယူမှတ်တမ်း ကြည့်ရှုခြင်း'
+        th:'เบิกอุปกรณ์สำนักงานและเครื่องเขียนสำหรับพนักงาน ตรวจสอบสต๊อกและประวัติการเบิก',
+        en:'Request office supplies and stationery, check stock levels, and view requisition history.',
+        mm:'ရုံးသုံးပစ္စည်းနှင့် စာရေးကိရိယာများ တောင်းခံခြင်း၊ စတော့လက်ကျန် စစ်ဆေးခြင်းနှင့် ထုတ်ယူမှတ်တမ်း ကြည့်ရှုခြင်း'
       },
       site:'WFDC',
       url:'https://berstream.github.io/WarehouseAsset/',
@@ -603,20 +572,7 @@
       status:'live'
     },
     {
-      no:'05', color:'#6A4C93', icon:'clock',
-      nameEn:'WFDC Outbound',
-      name:{ th:'ระบบจับเวลาโหลดสินค้า (Outbound)', en:'Loader timing tracker (Outbound)', mm:'ကုန်တင် အချိန်မှတ်တမ်း စနစ် (Outbound)' },
-      desc:{
-        th:'บันทึกและติดตามเวลาทำงานของพนักงานโหลดสินค้าฝั่ง Outbound',
-        en:'Track and log working time for outbound loading staff.',
-        mm:'Outbound ကုန်တင်ဝန်ထမ်းများ၏ အလုပ်ချိန်ကို မှတ်တမ်းတင်ပြီး ခြေရာခံသည်'
-      },
-      site:'WFDC',
-      url:'https://script.google.com/macros/s/AKfycbwmkIvvHUd9qy5PBUF3hpfGWlGbmLgCzTHmD3naaeWhSd5Obet90SgfOkFtzDll5sKE/exec',
-      status:'live'
-    },
-    {
-      no:'06', color:'#2E9E5B', icon:'check',
+      no:'05', color:'#2E9E5B', icon:'check',
       nameEn:'WFDC Asset Checker',
       name:{ th:'ระบบตรวจนับทรัพย์สิน', en:'Asset tracking & physical count', mm:'ပိုင်ဆိုင်မှု စစ်ဆေးရေး/ရေတွက်ရေး စနစ်' },
       desc:{
@@ -629,7 +585,7 @@
       status:'live'
     },
     {
-      no:'07', color:'#B15E2A', icon:'list',
+      no:'06', color:'#B15E2A', icon:'list',
       nameEn:'5S Audit',
       name:{ th:'ระบบตรวจ 5ส', en:'5S audit & corrective action', mm:'5S စစ်ဆေးရေး/ပြင်ဆင်ရေး စနစ်' },
       desc:{
