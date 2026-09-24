@@ -268,6 +268,47 @@
     margin-top:1rem;
   }
 
+  .card__note{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:.45rem;
+    margin-top:.85rem;
+    background:linear-gradient(180deg, var(--red-500), var(--red-600));
+    border:2.5px solid var(--white);
+    border-radius:12px;
+    padding:.55rem .7rem;
+    color:#fff;
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:1.02rem;
+    letter-spacing:.04em;
+    text-align:center;
+    line-height:1.25;
+    box-shadow:0 4px 0 rgba(140,26,20,.3), 0 6px 14px rgba(10,40,80,.18);
+    animation:noteFlash 2.6s ease-in-out infinite;
+  }
+
+  .card__note svg{ width:20px; height:20px; flex:0 0 auto; }
+
+  .card__note--amber{
+    background:linear-gradient(180deg, #F5A623, #E08706);
+    box-shadow:0 4px 0 rgba(150,90,5,.3), 0 6px 14px rgba(10,40,80,.16);
+    color:#3A2600;
+    font-size:.95rem;
+  }
+
+  .card__note--violet{
+    background:linear-gradient(180deg, #7E5EA8, #6A4C93);
+    box-shadow:0 4px 0 rgba(70,44,105,.32), 0 6px 14px rgba(10,40,80,.16);
+    font-size:.95rem;
+  }
+
+  /* งานที่ยังไม่เปิดใช้เต็มรูปแบบ — แถบหัวการ์ดมีลายทแยงเตือน */
+  .card--wip .card__bar{
+    background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.16) 0 11px, rgba(255,255,255,0) 11px 22px);
+  }
+
   .tag{
     display:inline-flex;
     align-items:center;
@@ -287,6 +328,30 @@
   .tag--live i{
     width:6px; height:6px; border-radius:50%;
     background:var(--green-600);
+    display:inline-block;
+    animation:pulse 2.2s infinite;
+  }
+
+  .tag--dev{
+    background:rgba(224,135,6,.14);
+    color:#B36C05;
+  }
+
+  .tag--dev i{
+    width:6px; height:6px; border-radius:50%;
+    background:#E08706;
+    display:inline-block;
+    animation:pulse 2.2s infinite;
+  }
+
+  .tag--trial{
+    background:rgba(106,76,147,.13);
+    color:#6A4C93;
+  }
+
+  .tag--trial i{
+    width:6px; height:6px; border-radius:50%;
+    background:#6A4C93;
     display:inline-block;
     animation:pulse 2.2s infinite;
   }
@@ -375,6 +440,24 @@
     font-weight:600;
   }
 
+  .foot__by{
+    display:flex;
+    align-items:center;
+    gap:.45rem;
+    margin:.4rem 0 0;
+    font-size:.78rem;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+
+  .foot__by svg{ width:14px; height:14px; flex:0 0 auto; color:var(--blue-500); }
+
+  .foot__by b{
+    color:var(--blue-900);
+    font-weight:800;
+    letter-spacing:.01em;
+  }
+
   .foot__badge{
     display:inline-flex;
     flex-direction:column;
@@ -404,10 +487,12 @@
   /* ---------- MOTION ---------- */
   @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
   @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
+  @keyframes noteFlash{ 0%,100%{ filter:brightness(1); } 50%{ filter:brightness(1.14); } }
 
   @media (prefers-reduced-motion: reduce){
     .card{ animation:none; opacity:1; transform:none; }
     .tag--live i{ animation:none; }
+    .card__note{ animation:none; }
     html{ scroll-behavior:auto; }
   }
 
@@ -453,7 +538,13 @@
   <main class="grid" id="grid"></main>
 
   <footer class="foot">
-    <p class="foot__note" id="footNote"></p>
+    <div>
+      <p class="foot__note" id="footNote"></p>
+      <p class="foot__by">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>
+        <span>Created by <b>Nutdanai Pathsith</b></span>
+      </p>
+    </div>
     <span class="foot__badge">
       <span class="foot__badgeMain">CJ IT</span>
       <span class="foot__badgeSub">IT for a Better Tomorrow</span>
@@ -474,7 +565,9 @@
     clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2.5"/></svg>',
     check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V4"/><path d="M9 13l2 2 4-4.5"/></svg>',
     list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V4"/><path d="M9 12h6M9 16h6M9 9h3"/></svg>',
-    plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg>'
+    plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg>',
+    count:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8"/><path d="M8 11h2M12 11h2M16 11h.5"/><path d="M8 15h2M12 15h2M16 15h.5"/><path d="M8 18.5h6"/></svg>',
+    alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 21 19.5H3L12 4Z"/><path d="M12 10v4"/><path d="M12 17h.01"/></svg>'
   };
 
   // ==================================================================
@@ -489,6 +582,9 @@
       updated:'อัปเดต',
       open:'เข้าใช้งาน',
       soon:'กำลังจะมา',
+      st_live:'พร้อมใช้งาน',
+      st_dev:'กำลังพัฒนา',
+      st_trial:'ทดลองใช้',
       footer:'บอร์ดนี้จะอัปเดตเรื่อย ๆ เมื่อมีระบบใหม่เปิดใช้งาน'
     },
     en:{
@@ -499,6 +595,9 @@
       updated:'Updated',
       open:'Open',
       soon:'Coming soon',
+      st_live:'LIVE',
+      st_dev:'IN DEVELOPMENT',
+      st_trial:'PILOT',
       footer:'This board keeps growing as new systems go live.'
     },
     mm:{
@@ -509,6 +608,9 @@
       updated:'နောက်ဆုံးအချိန်',
       open:'ဝင်ရောက်ရန်',
       soon:'မကြာမီ ရောက်လာမည်',
+      st_live:'အသုံးပြုနိုင်ပြီ',
+      st_dev:'တည်ဆောက်ဆဲ',
+      st_trial:'စမ်းသပ်ဆဲ',
       footer:'စနစ်အသစ်များ ထပ်တိုးလာသည်နှင့်အမျှ ဤဘုတ်ကို အပ်ဒိတ်လုပ်သွားပါမည်'
     }
   };
@@ -596,6 +698,39 @@
       site:'WFDC',
       url:'https://berstream.github.io/5S-Project/',
       status:'live'
+    },
+    {
+      no:'07', color:'#0F3B77', icon:'count',
+      nameEn:'WFDC Stocktake',
+      name:{ th:'ระบบตรวจนับสต๊อกสินค้า', en:'Warehouse stock count', mm:'ဂိုဒေါင် စတော့ရေတွက်ရေး စနစ်' },
+      desc:{
+        th:'ตรวจนับสต๊อกสินค้าในคลัง บันทึกผลการนับ และออกใบนับสินค้า',
+        en:'Count warehouse stock, record count results, and generate count sheets.',
+        mm:'ဂိုဒေါင်အတွင်း စတော့ရေတွက်ခြင်း၊ ရေတွက်ရလဒ် မှတ်တမ်းတင်ခြင်းနှင့် ရေတွက်စာရွက် ထုတ်ပေးခြင်း'
+      },
+      site:'WFDC',
+      url:'https://wfdc-stocktake.web.app/',
+      notes:[
+        { tone:'amber', th:'อยู่ระหว่างการพัฒนา', en:'UNDER DEVELOPMENT', mm:'တည်ဆောက်နေဆဲ ဖြစ်သည်' }
+      ],
+      status:'dev'
+    },
+    {
+      no:'08', color:'#D8342A', icon:'ticket',
+      nameEn:'CDC Ticket System',
+      name:{ th:'ระบบแจ้งปัญหา IT — CDC', en:'IT issue reporting — CDC', mm:'IT ပြဿနာ တိုင်ကြားရေး — CDC' },
+      desc:{
+        th:'แจ้งปัญหา ติดตามสถานะ และอนุมัติงาน สำหรับไซต์ CDC',
+        en:'Report issues, track status, and approve work for the CDC site.',
+        mm:'CDC ဆိုက်အတွက် ပြဿနာတိုင်ကြားခြင်း၊ အခြေအနေစောင့်ကြည့်ခြင်းနှင့် အလုပ်အတည်ပြုခြင်း'
+      },
+      site:'CDC',
+      url:'https://berstream.github.io/CDC-TicketSystems/Ticket.html',
+      notes:[
+        { tone:'red',    th:'สำหรับ CDC เท่านั้น', en:'CDC ONLY', mm:'CDC အတွက်သာ' },
+        { tone:'violet', th:'อยู่ระหว่างทดลองใช้บางแผนก', en:'Pilot — selected departments', mm:'အချို့ဌာနများတွင် စမ်းသပ်အသုံးပြုဆဲ' }
+      ],
+      status:'trial'
     }
   ];
 
@@ -630,6 +765,16 @@
       card.rel = 'noopener';
       card.style.setProperty('--c', s.color);
       card.style.animationDelay = (i * 0.06) + 's';
+      if(s.status !== 'live') card.classList.add('card--wip');
+
+      const noteHtml = (s.notes || []).map(n => {
+        const toneClass = (n.tone && n.tone !== 'red') ? ' card__note--' + n.tone : '';
+        return `<div class="card__note${toneClass}">${ICONS.alert}<span>${n[lang]}</span></div>`;
+      }).join('');
+
+      const stKey = { live:'st_live', dev:'st_dev', trial:'st_trial' }[s.status] || 'st_live';
+      const stClass = { live:'live', dev:'dev', trial:'trial' }[s.status] || 'live';
+
       card.innerHTML = `
         <div class="card__bar">
           <span class="card__icon">${ICONS[s.icon] || ''}</span>
@@ -641,9 +786,10 @@
         <div class="card__body">
           <p class="card__localName">${s.name[lang]}</p>
           <p class="card__desc">${s.desc[lang]}</p>
+          ${noteHtml}
           <div class="card__foot">
             <span class="tag tag--site">${s.site}</span>
-            <span class="tag tag--live"><i></i>${s.status === 'live' ? 'LIVE' : s.status.toUpperCase()}</span>
+            <span class="tag tag--${stClass}"><i></i>${t[stKey]}</span>
           </div>
           <span class="card__btn">${t.open} →</span>
         </div>
