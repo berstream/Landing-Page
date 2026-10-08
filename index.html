@@ -5,832 +5,579 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WFDC Wangnoi — Systems Board</title>
 <meta name="description" content="ศูนย์รวมระบบไอทีภายในของ WFDC Wangnoi — ครอบคลุม WFDC · CDC · HDC">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231B4F9C'/%3E%3Crect x='7' y='8' width='18' height='4' rx='2' fill='%23FFFFFF'/%3E%3Crect x='7' y='14' width='18' height='4' rx='2' fill='%23FFD24A'/%3E%3Crect x='7' y='20' width='11' height='4' rx='2' fill='%23FFFFFF'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500&family=Noto+Sans+Myanmar:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --blue-900:#0F3B77;
-    --blue-700:#1B4F9C;
-    --blue-500:#2C74C4;
-    --blue-100:#DCEAF8;
-    --blue-050:#EEF6FD;
+:root{
+  --navy:#0e2f6e; --navy2:#1a47a0; --blue:#1556d6; --sky:#3fb6ff; --red:#ff3b4f; --yellow:#ffd21f;
+  --text:#eaf2ff; --muted:#9db3d9; --card:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{display:flex;flex-direction:column;min-height:100vh;font-family:'Kanit','Prompt',sans-serif;color:var(--text);background:var(--navy);overflow-x:hidden;cursor:default}
+a{color:inherit;text-decoration:none}
 
-    --red-600:#D8342A;
-    --red-500:#E8483C;
+/* ===== Background ===== */
+.bg{position:fixed;inset:0;z-index:-3;background:radial-gradient(1200px 700px at 10% -10%,#2b6fe0 0%,transparent 60%),radial-gradient(900px 600px at 110% 10%,#7a2346 0%,transparent 55%),linear-gradient(180deg,#14408f 0%,#0c2b66 100%)}
+.blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.6;z-index:-2;animation:float 18s ease-in-out infinite}
+.b1{width:480px;height:480px;background:var(--blue);top:-120px;left:-120px}
+.b2{width:380px;height:380px;background:var(--red);bottom:-120px;right:-80px;animation-delay:-6s;opacity:.4}
+.b3{width:340px;height:340px;background:var(--sky);top:40%;left:55%;animation-delay:-12s;opacity:.4}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(60px,-40px) scale(1.1)}66%{transform:translate(-40px,50px) scale(.95)}}
+#particles{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.grid{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,#000 10%,transparent 70%);opacity:.25}
+.glow{position:fixed;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(63,182,255,.18),transparent 65%);transform:translate(-50%,-50%);transition:opacity .3s;mix-blend-mode:screen}
 
-    --green-600:#2E9E5B;
-    --amber-500:#FFC431;
+/* ===== Layout ===== */
+.wrap{flex:1;width:100%;max-width:1180px;margin:0 auto;padding:22px 20px 0;position:relative;z-index:1}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.logo{background:#fff;border-radius:14px;padding:6px 14px;display:flex;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,.35);animation:drop .8s cubic-bezier(.2,.9,.3,1.2) both}
+.logo img{height:38px;display:block}
+.hright{display:flex;align-items:center;gap:10px;animation:drop .8s .1s cubic-bezier(.2,.9,.3,1.2) both}
+.clock{font-family:'Prompt';text-align:right;line-height:1.15;padding:6px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);backdrop-filter:blur(10px)}
+.clock .t{font-size:20px;font-weight:500;letter-spacing:1px;font-variant-numeric:tabular-nums}
+.clock .d{font-size:12px;color:var(--muted)}
+.lang{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+.lang button{font:inherit;font-size:14px;color:var(--muted);background:none;border:0;padding:10px 14px;cursor:pointer;transition:.25s}
+.lang button.on{background:linear-gradient(135deg,var(--blue),var(--sky));color:#fff}
+@keyframes drop{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
 
-    --ink:#14335C;
-    --ink-soft:#5A7396;
-    --white:#FFFFFF;
-    --line:#D6E4F2;
+/* ===== Hero ===== */
+.hero{text-align:center;padding:56px 0 34px}
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;padding:6px 14px;border-radius:99px;border:1px solid rgba(255,59,79,.4);background:rgba(255,59,79,.1);color:#ffc2c9;animation:up .7s .15s both}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 rgba(255,59,79,.7);animation:ping 1.8s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 10px rgba(255,59,79,0)}100%{box-shadow:0 0 0 0 rgba(255,59,79,0)}}
+h1{font-size:clamp(34px,6vw,64px);font-weight:700;line-height:1.1;margin:18px 0 12px;animation:up .7s .25s both}
+h1 .g{background:linear-gradient(90deg,var(--sky),#fff 40%,var(--red) 75%,var(--sky));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 8s linear infinite}
+@keyframes shine{to{background-position:300% 0}}
+.sub{color:var(--muted);font-size:clamp(15px,2vw,18px);font-weight:300;max-width:620px;margin:0 auto;animation:up .7s .35s both}
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 
-    --font-display:'Nunito', 'Noto Sans Thai', sans-serif;
-    --font-body:'Noto Sans Thai', 'Noto Sans Myanmar', sans-serif;
-  }
+/* ===== Toolbar ===== */
+.tools{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:26px;animation:up .7s .45s both}
+.search{flex:1 1 300px;max-width:420px;position:relative}
+.search input{width:100%;font:inherit;font-size:15px;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 16px 13px 44px;outline:none;backdrop-filter:blur(10px);transition:.25s}
+.search input::placeholder{color:var(--muted)}
+.search input:focus{border-color:var(--sky);box-shadow:0 0 0 4px rgba(63,182,255,.18)}
+.search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:inherit;font-size:14px;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:9px 16px;cursor:pointer;transition:.25s;display:flex;gap:6px;align-items:center}
+.tab b{font-weight:500;font-size:11px;background:rgba(255,255,255,.1);border-radius:99px;padding:1px 7px}
+.tab:hover{color:#fff;border-color:rgba(63,182,255,.5)}
+.tab.on{color:#fff;background:linear-gradient(135deg,var(--blue),#0d3fa8);border-color:transparent;box-shadow:0 6px 20px rgba(21,86,214,.45)}
 
-  *{ box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
+/* ===== Cards ===== */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;padding-bottom:40px}
+.card{position:relative;border-radius:22px;padding:1px;background:linear-gradient(135deg,rgba(63,182,255,.5),rgba(255,255,255,.06) 40%,rgba(255,59,79,.45));opacity:0;transform:translateY(30px) scale(.97);transition:transform .35s cubic-bezier(.2,.8,.3,1),box-shadow .35s;transform-style:preserve-3d;will-change:transform}
+.card.show{animation:cardIn .7s cubic-bezier(.2,.8,.3,1) forwards}
+@keyframes cardIn{to{opacity:1;transform:none}}
+.card:hover{box-shadow:0 22px 50px rgba(0,0,0,.45),0 0 40px rgba(63,182,255,.18)}
+.inner{position:relative;height:100%;border-radius:21px;padding:24px;background:linear-gradient(160deg,rgba(26,66,140,.9),rgba(14,40,96,.92));overflow:hidden;display:flex;flex-direction:column}
+.inner::before{content:"";position:absolute;inset:0;background:radial-gradient(400px circle at var(--mx,50%) var(--my,0%),rgba(63,182,255,.16),transparent 45%);opacity:0;transition:.3s;pointer-events:none}
+.card:hover .inner::before{opacity:1}
+.shine{position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.08),transparent);transform:skewX(-20deg);transition:left .8s}
+.card:hover .shine{left:130%}
+.ctop{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px}
+.icon{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.35);transition:transform .4s}
+.card:hover .icon{transform:rotate(-8deg) scale(1.08)}
+.icon svg{width:30px;height:30px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cat{font-size:12px;padding:5px 11px;border-radius:99px;border:1px solid var(--line);color:var(--muted);background:rgba(255,255,255,.04)}
+.card h3{font-size:21px;font-weight:600;margin-bottom:6px}
+.card p{color:var(--muted);font-size:14.5px;font-weight:300;line-height:1.6;flex:1}
+.cfoot{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.status{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#9fe8b8}
+.status i{width:7px;height:7px;border-radius:50%;background:#2ee07a;box-shadow:0 0 8px #2ee07a;animation:blink 2s infinite}
+@keyframes blink{50%{opacity:.35}}
+.go{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:9px 16px;border-radius:12px;background:linear-gradient(135deg,var(--red),#d31f36);box-shadow:0 6px 18px rgba(255,59,79,.35);transition:.3s}
+.go svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;transition:transform .3s}
+.card:hover .go{gap:12px}
+.card:hover .go svg{transform:translateX(3px)}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0;display:none}
 
-  body{
-    margin:0;
-    font-family:var(--font-body);
-    color:var(--ink);
-    -webkit-font-smoothing:antialiased;
-    background:
-      radial-gradient(circle at 12% 8%, rgba(255,255,255,.55) 0, transparent 42%),
-      radial-gradient(circle at 88% 4%, rgba(255,255,255,.35) 0, transparent 38%),
-      repeating-linear-gradient(90deg, rgba(255,255,255,.07) 0 2px, transparent 2px 96px),
-      repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 2px, transparent 2px 96px),
-      linear-gradient(168deg, #3E8BD6 0%, #2C74C4 38%, #1B4F9C 100%);
-    background-attachment:fixed;
-    min-height:100vh;
-  }
+/* ===== Footer ===== */
+footer{position:relative;z-index:1;margin-top:10px;background:linear-gradient(90deg,#0b2d73,#0d3a94 60%,#0b2d73);border-top:1px solid rgba(255,255,255,.15)}
+.fbar{max-width:1180px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.contact{display:flex;align-items:center;gap:4px 14px;flex-wrap:wrap;font-size:13px}
+.contact .lbl{color:#cfe0ff}
+.contact span{display:flex;align-items:center;gap:8px}
+.contact svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.contact .sep{width:1px;height:14px;background:rgba(255,255,255,.35)}
+.contact a:hover{color:var(--yellow)}
+.badge{display:flex;align-items:center;gap:8px}
+.badge b{display:inline-block;background:var(--yellow);color:#0b2d73;font-weight:700;font-size:13px;padding:3px 12px;border-radius:8px;box-shadow:0 2px 0 #c9a400;animation:bob 3s ease-in-out infinite}
+.badge small{font-size:11px;color:#dfe9ff}
+@keyframes bob{50%{transform:translateY(-3px)}}
+.credit{text-align:center;font-size:11px;color:var(--muted);padding:5px 20px;background:#0a2557}
+.credit strong{color:#cfe0ff;font-weight:500}
 
-  a{ color:inherit; text-decoration:none; }
+@media (max-width:640px){
+  .hero{padding:36px 0 26px}
+  .clock{display:none}
+  .contact .sep{display:none}
+  .fbar{justify-content:center;text-align:center}
+  .contact{justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.card{opacity:1;transform:none}}
+@media (hover:none){.glow{display:none}}
 
-  .wrap{
-    max-width:1180px;
-    margin:0 auto;
-    padding:clamp(1rem,3vw,1.75rem) clamp(1rem,4vw,2.5rem) 3rem;
-  }
+/* ===== Theme: bright CP Axtra / Makro poster style ===== */
+:root{--blue:#0f4fbf;--sky:#4aa8ff;--red:#e3192b;--text:#0b2e6b;--muted:#4d6a9c;--line:rgba(15,79,191,.15)}
+.bg{background:radial-gradient(1000px 600px at 15% 0%,#5aa9ff 0%,transparent 60%),radial-gradient(800px 500px at 100% 100%,#1c5fd0 0%,transparent 60%),linear-gradient(160deg,#2f86f0 0%,#1a63d8 55%,#1452c2 100%)}
+.blob{opacity:.35!important}
+.b1{background:#8fd0ff}.b2{background:#ff6b78}.b3{background:#ffffff;opacity:.18!important}
+.grid{background-image:linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px);opacity:.35}
+.glow{background:radial-gradient(circle,rgba(255,255,255,.22),transparent 65%)}
 
-  /* ---------- TOP BAR ---------- */
-  .topbar{
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    gap:1rem;
-    flex-wrap:wrap;
-    margin-bottom:clamp(1.25rem,3vw,2rem);
-  }
+/* header controls on blue */
+.clock{background:rgba(255,255,255,.95);border-color:#fff;color:var(--text);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.clock .d{color:var(--muted)}
+.lang{background:rgba(255,255,255,.95);border-color:#fff;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.lang button{color:var(--muted)}
+.lang button.on{background:var(--blue)}
 
-  .lang-group{
-    display:inline-flex;
-    background:rgba(255,255,255,.94);
-    border-radius:999px;
-    padding:4px;
-    box-shadow:0 4px 14px rgba(10,40,80,.16);
-  }
+/* hero */
+.pill{background:#fff;border-color:#fff;color:var(--red);font-weight:500;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+h1{color:#fff;text-shadow:0 4px 0 #0c3d99,0 10px 24px rgba(0,0,0,.25)}
+h1 .g{display:inline-block;background:var(--red);color:#fff;-webkit-text-fill-color:#fff;padding:0 .3em .05em;border-radius:.25em;transform:rotate(-2deg);text-shadow:none;box-shadow:0 6px 0 #a10f1d,0 14px 28px rgba(0,0,0,.25);animation:wob 4s ease-in-out infinite}
+@keyframes wob{50%{transform:rotate(1deg) scale(1.03)}}
+.sub{color:#eaf3ff}
 
-  .lang-btn{
-    appearance:none; border:none; cursor:pointer;
-    background:transparent;
-    border-radius:999px;
-    font-family:var(--font-body);
-    font-size:.8rem;
-    font-weight:700;
-    padding:.42rem .95rem;
-    color:var(--ink-soft);
-    transition:background .15s ease, color .15s ease;
-  }
-  .lang-btn:hover{ color:var(--blue-700); }
-  .lang-btn.is-active{ background:var(--blue-700); color:#fff; }
-  .lang-btn:focus-visible{ outline:2px solid var(--white); outline-offset:2px; }
+/* toolbar */
+.search input{background:#fff;border-color:#fff;color:var(--text);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.search input:focus{box-shadow:0 0 0 4px rgba(255,255,255,.45)}
+.tab{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);color:#fff}
+.tab b{background:rgba(255,255,255,.25)}
+.tab:hover{background:rgba(255,255,255,.3);border-color:#fff}
+.tab.on{background:#fff;color:var(--blue);box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.tab.on b{background:var(--blue);color:#fff}
 
-  /* ---------- HERO BANNER ---------- */
-  .hero{
-    background:rgba(255,255,255,.5);
-    border:2px solid rgba(255,255,255,.75);
-    border-radius:26px;
-    padding:clamp(1.5rem,4vw,2.5rem) clamp(1.25rem,4vw,2.5rem) clamp(1.5rem,4vw,2rem);
-    backdrop-filter:blur(3px);
-    box-shadow:0 12px 34px rgba(10,40,80,.18);
-  }
+/* cards: white panel with blue header strip */
+.card{background:#fff;padding:0;border-radius:20px;box-shadow:0 12px 30px rgba(6,40,110,.28)}
+.card:hover{box-shadow:0 22px 44px rgba(6,40,110,.38)}
+.inner{background:#fff;border-radius:20px;padding:0}
+.inner::before{background:radial-gradient(300px circle at var(--mx,50%) var(--my,0%),rgba(47,134,240,.10),transparent 50%)}
+.shine{background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);z-index:2}
+.ctop{margin:0;padding:14px 18px;background:linear-gradient(90deg,#0d4aa8,#1a63d8);align-items:center;gap:12px;justify-content:flex-start;border-radius:20px 20px 0 0}
+.icon{width:48px;height:48px;border-radius:50%;border:3px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.icon svg{width:24px;height:24px}
+.ctop .cat{margin-left:auto;background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35);color:#fff}
+.card h3{color:#fff;font-size:19px;margin:0;flex:1;line-height:1.25}
+.body{padding:18px 20px 18px;display:flex;flex-direction:column;flex:1}
+.card p{color:#33507f;font-weight:400}
+.cfoot{border-top:1px dashed rgba(15,79,191,.2);margin-top:16px;padding-top:14px}
+.status{color:#14924a;font-weight:500}
+.status i{background:#18b45a;box-shadow:0 0 8px #18b45a}
+.go{background:var(--red);box-shadow:0 4px 0 #a10f1d}
+.empty{color:#fff}
 
-  .banner{
-    background:linear-gradient(180deg, var(--red-500), var(--red-600));
-    border:4px solid var(--white);
-    border-radius:20px;
-    padding:clamp(.9rem,2.5vw,1.35rem) clamp(1.1rem,3vw,2rem);
-    box-shadow:0 10px 0 rgba(140,26,20,.28), 0 16px 30px rgba(10,40,80,.22);
-    text-align:center;
-    margin-bottom:1.6rem;
-  }
+footer{background:#0d3f9a;border-top:0;color:#fff}
+.search svg{z-index:1}
+.credit{background:#0a3282;color:#bcd3ff}
+/* Variant 2 */
+.cards{gap:24px;margin-top:20px}
+.card{border-radius:18px;box-shadow:0 10px 30px rgba(15,60,140,.14)}
+.card:hover{box-shadow:0 20px 44px rgba(15,60,140,.24)}
+.inner{border-radius:18px;border-top:6px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,var(--blue),var(--sky) 60%,var(--red)) border-box}
+.ctop{background:#fff;border-radius:0;padding:20px 20px 4px}
+.icon{border-radius:14px;border:0;width:52px;height:52px}
+.card h3{color:var(--text)}
+.ctop .cat{background:#eef5ff;border-color:#d6e6ff;color:var(--blue)}
+.body{padding:10px 20px 20px}
 
-  .banner h1{
-    font-family:var(--font-display);
-    font-weight:900;
-    color:#fff;
-    margin:0;
-    line-height:1.12;
-    font-size:clamp(1.65rem,5.2vw,3rem);
-    text-shadow:0 3px 0 rgba(120,20,16,.35);
-    letter-spacing:.01em;
-  }
+/* hero left */
+.hero{text-align:left;max-width:820px}
+.sub{margin:0}
+/* open button: light, not heavy */
+.go{background:#fff0f1;color:var(--red);font-weight:500;letter-spacing:.2px;padding:8px 8px 8px 16px;border-radius:99px;box-shadow:none;border:1px solid #ffd3d8;transition:background .3s,color .3s,box-shadow .3s}
+.go svg{stroke:#fff;width:14px;height:14px;box-sizing:content-box;padding:5px;border-radius:50%;background:var(--red);transition:transform .3s,background .3s}
+.card:hover .go{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 6px 16px rgba(227,25,43,.3)}
+.card:hover .go svg{background:#fff;stroke:var(--red);transform:translateX(2px)}
 
-  .banner p{
-    margin:.45rem 0 0;
-    color:rgba(255,255,255,.94);
-    font-size:clamp(.85rem,2vw,1rem);
-    font-weight:600;
-  }
+/* in-development state */
+.card.is-dev .status{color:#b26a00}
+.card.is-dev .status i{background:#ffb020;box-shadow:0 0 8px #ffb020}
+.card.is-dev .go{background:#fff7e6;color:#b26a00;border-color:#ffe0a3}
+.card.is-dev .go svg{background:#ffb020}
+.card.is-dev:hover .go{background:#ffb020;color:#fff;border-color:#ffb020;box-shadow:0 6px 16px rgba(255,176,32,.35)}
+.card.is-dev:hover .go svg{background:#fff;stroke:#ffb020}
+.ribbon{position:absolute;z-index:3;top:16px;right:-34px;transform:rotate(35deg);background:linear-gradient(90deg,#ffb020,#ffd21f);color:#5a3a00;font-size:11px;font-weight:600;letter-spacing:.5px;padding:3px 40px;box-shadow:0 3px 8px rgba(0,0,0,.18);pointer-events:none}
+.card{overflow:hidden}
+.card.is-dev .ctop .cat{margin-right:26px}
 
-  .hero__lead{
-    max-width:62ch;
-    margin:0 auto 1.5rem;
-    text-align:center;
-    font-size:clamp(.92rem,2vw,1.02rem);
-    line-height:1.85;
-    color:var(--ink);
-  }
-
-  .hero__stats{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:.6rem;
-  }
-
-  .stat{
-    display:inline-flex;
-    align-items:center;
-    gap:.5rem;
-    background:var(--white);
-    border:1.5px solid var(--line);
-    border-radius:999px;
-    padding:.45rem .9rem;
-    font-size:.82rem;
-    font-weight:700;
-    color:var(--blue-700);
-    box-shadow:0 2px 6px rgba(10,40,80,.07);
-  }
-
-  .stat svg{ width:16px; height:16px; }
-
-  .stat--sites{ color:var(--ink-soft); font-weight:600; }
-
-  /* ---------- GRID ---------- */
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(290px,1fr));
-    gap:1.25rem;
-    margin-top:clamp(1.5rem,4vw,2.25rem);
-  }
-
-  .card{
-    display:flex;
-    flex-direction:column;
-    background:var(--white);
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 8px 22px rgba(10,40,80,.16);
-    opacity:0;
-    transform:translateY(14px);
-    animation:rise .5s ease forwards;
-    transition:transform .18s ease, box-shadow .18s ease;
-  }
-
-  a.card:hover, a.card:focus-visible{
-    transform:translateY(-6px);
-    box-shadow:0 18px 34px rgba(10,40,80,.26);
-  }
-  a.card:focus-visible{ outline:3px solid var(--white); outline-offset:3px; }
-
-  .card__bar{
-    display:flex;
-    align-items:center;
-    gap:.7rem;
-    background:var(--c, var(--blue-700));
-    padding:.8rem 1rem;
-  }
-
-  .card__icon{
-    flex:0 0 auto;
-    width:36px; height:36px;
-    border-radius:50%;
-    background:rgba(255,255,255,.92);
-    color:var(--c, var(--blue-700));
-    display:flex; align-items:center; justify-content:center;
-  }
-  .card__icon svg{ width:19px; height:19px; }
-
-  .card__barText{
-    display:flex;
-    flex-direction:column;
-    line-height:1.25;
-    min-width:0;
-  }
-
-  .card__no{
-    font-family:var(--font-display);
-    font-weight:800;
-    font-size:.68rem;
-    letter-spacing:.1em;
-    color:rgba(255,255,255,.8);
-  }
-
-  .card__title{
-    font-family:var(--font-display);
-    font-weight:800;
-    font-size:1.02rem;
-    color:#fff;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-
-  .card__body{
-    padding:1.1rem 1.15rem 1.25rem;
-    display:flex;
-    flex-direction:column;
-    flex-grow:1;
-  }
-
-  .card__localName{
-    font-size:.93rem;
-    font-weight:700;
-    color:var(--blue-900);
-    margin:0 0 .6rem;
-    line-height:1.5;
-  }
-
-  .card__desc{
-    position:relative;
-    background:var(--blue-050);
-    border-radius:12px;
-    padding:.75rem .85rem;
-    font-size:.85rem;
-    line-height:1.75;
-    color:var(--ink-soft);
-    margin:0;
-    flex-grow:1;
-  }
-
-  .card__foot{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:.6rem;
-    margin-top:1rem;
-  }
-
-  .card__note{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:.45rem;
-    margin-top:.85rem;
-    background:linear-gradient(180deg, var(--red-500), var(--red-600));
-    border:2.5px solid var(--white);
-    border-radius:12px;
-    padding:.55rem .7rem;
-    color:#fff;
-    font-family:var(--font-display);
-    font-weight:900;
-    font-size:1.02rem;
-    letter-spacing:.04em;
-    text-align:center;
-    line-height:1.25;
-    box-shadow:0 4px 0 rgba(140,26,20,.3), 0 6px 14px rgba(10,40,80,.18);
-    animation:noteFlash 2.6s ease-in-out infinite;
-  }
-
-  .card__note svg{ width:20px; height:20px; flex:0 0 auto; }
-
-  .card__note--amber{
-    background:linear-gradient(180deg, #F5A623, #E08706);
-    box-shadow:0 4px 0 rgba(150,90,5,.3), 0 6px 14px rgba(10,40,80,.16);
-    color:#3A2600;
-    font-size:.95rem;
-  }
-
-  .card__note--violet{
-    background:linear-gradient(180deg, #7E5EA8, #6A4C93);
-    box-shadow:0 4px 0 rgba(70,44,105,.32), 0 6px 14px rgba(10,40,80,.16);
-    font-size:.95rem;
-  }
-
-  /* งานที่ยังไม่เปิดใช้เต็มรูปแบบ — แถบหัวการ์ดมีลายทแยงเตือน */
-  .card--wip .card__bar{
-    background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.16) 0 11px, rgba(255,255,255,0) 11px 22px);
-  }
-
-  .tag{
-    display:inline-flex;
-    align-items:center;
-    gap:.35rem;
-    font-size:.7rem;
-    font-weight:700;
-    letter-spacing:.04em;
-    border-radius:999px;
-    padding:.3rem .6rem;
-  }
-
-  .tag--live{
-    background:rgba(46,158,91,.12);
-    color:var(--green-600);
-  }
-
-  .tag--live i{
-    width:6px; height:6px; border-radius:50%;
-    background:var(--green-600);
-    display:inline-block;
-    animation:pulse 2.2s infinite;
-  }
-
-  .tag--dev{
-    background:rgba(224,135,6,.14);
-    color:#B36C05;
-  }
-
-  .tag--dev i{
-    width:6px; height:6px; border-radius:50%;
-    background:#E08706;
-    display:inline-block;
-    animation:pulse 2.2s infinite;
-  }
-
-  .tag--trial{
-    background:rgba(106,76,147,.13);
-    color:#6A4C93;
-  }
-
-  .tag--trial i{
-    width:6px; height:6px; border-radius:50%;
-    background:#6A4C93;
-    display:inline-block;
-    animation:pulse 2.2s infinite;
-  }
-
-  .tag--site{
-    background:var(--blue-100);
-    color:var(--blue-700);
-  }
-
-  .card__btn{
-    display:block;
-    text-align:center;
-    margin-top:.9rem;
-    background:var(--c, var(--blue-700));
-    color:#fff;
-    font-family:var(--font-body);
-    font-weight:700;
-    font-size:.85rem;
-    border-radius:12px;
-    padding:.62rem 1rem;
-    box-shadow:0 3px 0 rgba(10,40,80,.22);
-    transition:filter .15s ease, transform .12s ease;
-  }
-
-  a.card:hover .card__btn{ filter:brightness(1.08); }
-  a.card:active .card__btn{ transform:translateY(2px); box-shadow:0 1px 0 rgba(10,40,80,.22); }
-
-  /* placeholder */
-  .card--soon{
-    background:rgba(255,255,255,.42);
-    border:2.5px dashed rgba(255,255,255,.8);
-    box-shadow:none;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:2.25rem 1.5rem;
-    min-height:200px;
-  }
-
-  .card--soon .soon__icon{
-    width:48px; height:48px;
-    border-radius:50%;
-    background:rgba(255,255,255,.85);
-    color:var(--blue-700);
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:.85rem;
-  }
-  .card--soon .soon__icon svg{ width:24px; height:24px; }
-
-  .soon__no{
-    font-family:var(--font-display);
-    font-weight:800;
-    font-size:.72rem;
-    letter-spacing:.1em;
-    color:#fff;
-    margin:0 0 .3rem;
-  }
-
-  .soon__text{
-    margin:0;
-    font-weight:700;
-    font-size:.92rem;
-    line-height:1.6;
-    color:#fff;
-    text-shadow:0 1px 3px rgba(10,40,80,.3);
-  }
-
-  /* ---------- FOOTER ---------- */
-  .foot{
-    margin-top:2.25rem;
-    background:rgba(255,255,255,.95);
-    border-radius:18px;
-    padding:1rem 1.25rem;
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    justify-content:space-between;
-    gap:.85rem;
-    box-shadow:0 8px 22px rgba(10,40,80,.16);
-  }
-
-  .foot__note{
-    margin:0;
-    font-size:.85rem;
-    color:var(--ink-soft);
-    font-weight:600;
-  }
-
-  .foot__by{
-    display:flex;
-    align-items:center;
-    gap:.45rem;
-    margin:.4rem 0 0;
-    font-size:.78rem;
-    color:var(--ink-soft);
-    font-weight:600;
-  }
-
-  .foot__by svg{ width:14px; height:14px; flex:0 0 auto; color:var(--blue-500); }
-
-  .foot__by b{
-    color:var(--blue-900);
-    font-weight:800;
-    letter-spacing:.01em;
-  }
-
-  .foot__badge{
-    display:inline-flex;
-    flex-direction:column;
-    align-items:flex-end;
-    line-height:1.2;
-  }
-
-  .foot__badgeMain{
-    background:var(--amber-500);
-    color:var(--blue-900);
-    font-family:var(--font-display);
-    font-weight:900;
-    font-size:.95rem;
-    letter-spacing:.06em;
-    border-radius:10px;
-    padding:.3rem .7rem;
-  }
-
-  .foot__badgeSub{
-    font-size:.66rem;
-    font-weight:700;
-    color:var(--ink-soft);
-    margin-top:.25rem;
-    letter-spacing:.02em;
-  }
-
-  /* ---------- MOTION ---------- */
-  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
-  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
-  @keyframes noteFlash{ 0%,100%{ filter:brightness(1); } 50%{ filter:brightness(1.14); } }
-
-  @media (prefers-reduced-motion: reduce){
-    .card{ animation:none; opacity:1; transform:none; }
-    .tag--live i{ animation:none; }
-    .card__note{ animation:none; }
-    html{ scroll-behavior:auto; }
-  }
-
-  @media (max-width:480px){
-    .banner{ border-width:3px; }
-    .card__title{ font-size:.95rem; }
-  }
+/* ===== WFDC additions ===== */
+body.mm,body.mm input,body.mm button{font-family:'Noto Sans Myanmar','Kanit',sans-serif}
+body.mm h1{font-size:clamp(28px,4.6vw,50px);line-height:1.35}
+.hstats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;animation:up .7s .4s both}
+.hstats span{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:99px;padding:6px 14px;font-size:13px}
+.cards{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.ttl{flex:1;min-width:0;display:flex;flex-direction:column}
+.ttl h3{flex:none;font-size:18px}
+.no{font-size:11px;font-weight:600;letter-spacing:1px;color:var(--muted)}
+.lname{font-weight:500;color:var(--text)!important;font-size:15px;margin-bottom:4px;flex:none!important}
+.desc{font-size:14px}
+.note{display:flex;align-items:center;gap:8px;margin-top:10px;padding:7px 10px;border-radius:10px;font-size:12.5px;font-weight:500;flex:none}
+.note svg{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.note--red{background:#fff0f1;color:#c4121f;border:1px solid #ffd3d8}
+.note--amber{background:#fff7e6;color:#9a5b00;border:1px solid #ffe0a3}
+.note--violet{background:#f4efff;color:#6a3fc8;border:1px solid #dfd1ff}
+.body{display:flex;flex-direction:column}
+.desc{flex:1}
+/* status colors */
+.card.is-dev .status{color:#b26a00}.card.is-dev .status i{background:#ffb020;box-shadow:0 0 8px #ffb020}
+.card.is-dev .go{background:#fff7e6;color:#b26a00;border-color:#ffe0a3}.card.is-dev .go svg{background:#ffb020}
+.card.is-dev:hover .go{background:#ffb020;color:#fff;border-color:#ffb020;box-shadow:0 6px 16px rgba(255,176,32,.35)}
+.card.is-dev:hover .go svg{background:#fff;stroke:#ffb020}
+.card.is-trial .status{color:#6a3fc8}.card.is-trial .status i{background:#8b5cf6;box-shadow:0 0 8px #8b5cf6}
+.card.is-trial .go{background:#f4efff;color:#6a3fc8;border-color:#dfd1ff}.card.is-trial .go svg{background:#8b5cf6}
+.card.is-trial:hover .go{background:#8b5cf6;color:#fff;border-color:#8b5cf6;box-shadow:0 6px 16px rgba(139,92,246,.35)}
+.card.is-trial:hover .go svg{background:#fff;stroke:#8b5cf6}
+.ribbon{position:absolute;z-index:3;top:16px;right:-34px;transform:rotate(35deg);background:linear-gradient(90deg,#ffb020,#ffd21f);color:#5a3a00;font-size:11px;font-weight:600;letter-spacing:.5px;padding:3px 40px;box-shadow:0 3px 8px rgba(0,0,0,.18);pointer-events:none}
+.ribbon--trial{background:linear-gradient(90deg,#8b5cf6,#b794ff);color:#fff}
+.card{overflow:hidden}
+.card.is-dev .ctop .cat,.card.is-trial .ctop .cat{margin-right:26px}
+/* coming soon */
+.card.soon{background:rgba(255,255,255,.12);border:2px dashed rgba(255,255,255,.55);box-shadow:none;transform:none}
+.card.soon .inner{background:transparent;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#fff;border-radius:18px}
+.card.soon .inner::before,.card.soon .inner::after{display:none}
+.soon-ic{width:52px;height:52px;border-radius:50%;border:2px solid rgba(255,255,255,.7);display:grid;place-items:center;animation:bob 2.6s ease-in-out infinite}
+.soon-ic svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round}
+.card.soon .no{color:rgba(255,255,255,.75)}
+.soon-t{font-size:16px;font-weight:500}
+.credit span[data-i18n]{opacity:.8}
 </style>
 </head>
 <body>
+<div class="bg"></div>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="grid"></div>
+<canvas id="particles"></canvas>
+<div class="glow" id="glow"></div>
 
 <div class="wrap">
-
-  <div class="topbar">
-    <div class="lang-group" role="group" aria-label="Language">
-      <button class="lang-btn" data-lang="th" type="button">ไทย</button>
-      <button class="lang-btn" data-lang="en" type="button">EN</button>
-      <button class="lang-btn" data-lang="mm" type="button">မြန်မာ</button>
-    </div>
-  </div>
-
-  <header class="hero">
-    <div class="banner">
-      <h1 id="bannerTitle"></h1>
-      <p id="bannerSub"></p>
-    </div>
-
-    <p class="hero__lead" id="heroLead"></p>
-
-    <div class="hero__stats">
-      <span class="stat">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-        <span id="statCount"></span>
-      </span>
-      <span class="stat">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span id="statClock"></span>
-      </span>
-      <span class="stat stat--sites">WFDC · CDC · HDC</span>
+  <header>
+    <div class="logo"><img src="data:image/jpeg;base64,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" alt="CJ Logistics"></div>
+    <div class="hright">
+      <div class="clock"><div class="t" id="time">--:--:--</div><div class="d" id="date"></div></div>
+      <div class="lang"><button data-l="th" class="on">ไทย</button><button data-l="en">EN</button><button data-l="mm">မြန်မာ</button></div>
     </div>
   </header>
 
-  <main class="grid" id="grid"></main>
+  <section class="hero">
+    <div class="pill"><i></i><span data-i18n="pill"></span></div>
+    <h1><span data-i18n="h1a"></span> <span class="g">WFDC</span></h1>
+    <p class="sub" data-i18n="sub"></p>
+    <div class="hstats"><span id="nCount"></span><span>WFDC · CDC · HDC</span></div>
+  </section>
 
-  <footer class="foot">
-    <div>
-      <p class="foot__note" id="footNote"></p>
-      <p class="foot__by">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>
-        <span>Created by <b>Nutdanai Pathsith</b></span>
-      </p>
-    </div>
-    <span class="foot__badge">
-      <span class="foot__badgeMain">CJ IT</span>
-      <span class="foot__badgeSub">IT for a Better Tomorrow</span>
-    </span>
-  </footer>
+  <div class="tools">
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" autocomplete="off">
+    </label>
+    <div class="tabs" id="tabs"></div>
+  </div>
 
+  <main class="cards" id="cards"></main>
 </div>
 
+<footer>
+  <div class="fbar">
+    <div class="contact">
+      <span class="lbl" data-i18n="ask"></span>
+      <span><svg viewBox="0 0 24 24"><path d="M4 14v-3a8 8 0 0 1 16 0v3"/><rect x="2.5" y="13" width="4" height="6" rx="1.5"/><rect x="17.5" y="13" width="4" height="6" rx="1.5"/><path d="M19.5 19c0 1.5-2 2.5-5 2.5"/></svg>CJ IT WFDC Service Desk</span>
+      <i class="sep"></i>
+      <span><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></svg><span data-i18n="tel"></span>&nbsp;<a href="tel:0982782532">098-278-2532</a></span>
+      <i class="sep"></i>
+      <span><svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg><span data-i18n="mail"></span>&nbsp;:&nbsp;<a href="mailto:nutdanai.pa@cj.net">nutdanai.pa@cj.net</a></span>
+    </div>
+    <div class="badge"><b>CJ IT</b><small>IT for a Better Tomorrow</small></div>
+  </div>
+  <div class="credit">© <span id="yr"></span> <strong>CJ IT By Nutdanai Pathsith</strong> · WFDC Wangnoi · <span data-i18n="foot"></span></div>
+</footer>
+
 <script>
-  // ==================================================================
-  //  ไอคอน / ICONS
-  // ==================================================================
-  const ICONS = {
-    scan:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9v6M10.5 9v6M13 9v6M16.5 9v3"/></svg>',
-    ticket:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5v1.75a1.75 1.75 0 0 0 0 3.5v1.75A2.5 2.5 0 0 1 17.5 18h-11A2.5 2.5 0 0 1 4 15.5v-1.75a1.75 1.75 0 0 0 0-3.5V8.5Z"/><path d="M10 6v12" stroke-dasharray="1.6 2.4"/></svg>',
-    box:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8 12 3.5 20.5 8 12 12.5 3.5 8Z"/><path d="M3.5 8v8L12 20.5l8.5-4.5V8"/><path d="M12 12.5V20.5"/></svg>',
-    container:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="10" rx="1.5"/><path d="M6.5 7v10M10.5 7v10M14.5 7v10M18.5 7v10"/></svg>',
-    clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2.5"/></svg>',
-    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V4"/><path d="M9 13l2 2 4-4.5"/></svg>',
-    list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V4"/><path d="M9 12h6M9 16h6M9 9h3"/></svg>',
-    plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg>',
-    count:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8"/><path d="M8 11h2M12 11h2M16 11h.5"/><path d="M8 15h2M12 15h2M16 15h.5"/><path d="M8 18.5h6"/></svg>',
-    alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 21 19.5H3L12 4Z"/><path d="M12 10v4"/><path d="M12 17h.01"/></svg>'
-  };
+/* =====================================================
+   WFDC Systems Board
+   เพิ่ม/แก้ระบบ: แก้เฉพาะ SYSTEMS (และ TYPES ถ้าใช้แท็บแบบประเภทงาน)
+   icon ที่มี: scan, ticket, box, container, check, list, count, clock
+   status: 'live' = พร้อมใช้งาน | 'dev' = อยู่ระหว่างพัฒนา | 'trial' = ทดลองใช้
+   notes tone: 'red' | 'amber' | 'violet'
+   ===================================================== */
+const TAB_MODE = 'type';   // 'site' = แบ่งตามไซต์ | 'type' = แบ่งตามประเภทงาน | 'none' = ไม่มีแท็บ
 
-  // ==================================================================
-  //  ภาษา / LANGUAGES
-  // ==================================================================
-  const I18N = {
-    th:{
-      bannerTitle:'ศูนย์รวมระบบไอที WFDC',
-      bannerSub:'WFDC Systems Board · วังน้อย',
-      lead:'รวมทุกระบบที่ใช้งานจริงหน้างานไว้ในที่เดียว เลือกระบบที่ต้องการแล้วกดเข้าใช้งานได้ทันที',
-      count:'ระบบ',
-      updated:'อัปเดต',
-      open:'เข้าใช้งาน',
-      soon:'กำลังจะมา',
-      st_live:'พร้อมใช้งาน',
-      st_dev:'กำลังพัฒนา',
-      st_trial:'ทดลองใช้',
-      footer:'บอร์ดนี้จะอัปเดตเรื่อย ๆ เมื่อมีระบบใหม่เปิดใช้งาน'
+const TYPES = {
+  ops: { th:'Operation',           en:'Operation',          mm:'Operation' },
+  inv: { th:'สต๊อก & ทรัพย์สิน',     en:'Stock & Assets',     mm:'စတော့ & ပိုင်ဆိုင်မှု' },
+  svc: { th:'Ticket & แจ้งปัญหา',   en:'Tickets & Support',  mm:'Ticket & အကူအညီ' },
+  qa:  { th:'คุณภาพ',               en:'Quality',            mm:'အရည်အသွေး' },
+};
+
+const SYSTEMS = [
+  {
+    no:'01', icon:'scan', color:['#1B4F9C','#3f86e8'], site:'WFDC', type:'ops', status:'live',
+    nameEn:'PDA Borrow–Return',
+    name:{ th:'ระบบยืม-คืน PDA', en:'PDA borrow & return tracking', mm:'PDA ငှား-ပြန်အပ် စနစ်' },
+    desc:{
+      th:'จัดการยืม-คืนเครื่องสแกนบาร์โค้ด พร้อมสิทธิ์ Admin / คลัง / ผู้ใช้งาน',
+      en:'Manage barcode scanner check-out and return, with Admin / Warehouse / User roles.',
+      mm:'ဘားကုဒ်စကင်နာ ငှားရမ်း-ပြန်အပ်ခြင်းကို စီမံရန် — Admin / ဂိုဒေါင် / အသုံးပြုသူ အခန်းကဏ္ဍများပါဝင်သည်'
     },
-    en:{
-      bannerTitle:'WFDC IT Systems Hub',
-      bannerSub:'WFDC Systems Board · Wangnoi',
-      lead:'Every internal system used on the floor, gathered in one place. Pick a system and get straight to work.',
-      count:'systems',
-      updated:'Updated',
-      open:'Open',
-      soon:'Coming soon',
-      st_live:'LIVE',
-      st_dev:'IN DEVELOPMENT',
-      st_trial:'PILOT',
-      footer:'This board keeps growing as new systems go live.'
+    url:'https://script.google.com/macros/s/AKfycbxmApDINP7xxIFoKQkaEp1brHsTMTYS3-o7AfdPCar8Lu8K1NVJHYALPIeYhqD6Xsxjrw/exec',
+  },
+  {
+    no:'02', icon:'ticket', color:['#D8342A','#ff7a6b'], site:'WFDC', type:'svc', status:'live',
+    nameEn:'Claim & CS Ticket',
+    name:{ th:'ระบบ Ticket งาน Claim & CS', en:'Claim & CS case ticketing', mm:'Claim & CS လုပ်ငန်း Ticket စနစ်' },
+    desc:{
+      th:'Claim & CS เปิด-ปิดเคสงานกับแผนกต่างๆ พร้อมแจ้งเตือนตาม SLA',
+      en:'Claim & CS open and close case tickets with departments, with SLA-based alerts.',
+      mm:'Claim & CS သည် ဌာနအသီးသီးနှင့် Ticket ဖွင့်/ပိတ်ပြီး SLA အလိုက် သတိပေးချက် ပါဝင်သည်'
     },
-    mm:{
-      bannerTitle:'WFDC IT စနစ်များ စုစည်းရာ',
-      bannerSub:'WFDC Systems Board · Wangnoi',
-      lead:'လုပ်ငန်းခွင်တွင် အသုံးပြုနေသော စနစ်အားလုံးကို တစ်နေရာတည်းတွင် စုစည်းထားသည် — လိုအပ်သော စနစ်ကို ရွေးပြီး ချက်ချင်း အသုံးပြုနိုင်ပါသည်',
-      count:'စနစ်',
-      updated:'နောက်ဆုံးအချိန်',
-      open:'ဝင်ရောက်ရန်',
-      soon:'မကြာမီ ရောက်လာမည်',
-      st_live:'အသုံးပြုနိုင်ပြီ',
-      st_dev:'တည်ဆောက်ဆဲ',
-      st_trial:'စမ်းသပ်ဆဲ',
-      footer:'စနစ်အသစ်များ ထပ်တိုးလာသည်နှင့်အမျှ ဤဘုတ်ကို အပ်ဒိတ်လုပ်သွားပါမည်'
-    }
-  };
-
-  // ==================================================================
-  //  ระบบทั้งหมด / SYSTEMS
-  //  เพิ่มระบบใหม่: copy object หนึ่งชุด แล้วแก้ค่าให้ครบ
-  //  icon เลือกจาก: scan · ticket · box · container · clock · check · list
-  // ==================================================================
-  const SYSTEMS = [
-    {
-      no:'01', color:'#1B4F9C', icon:'scan',
-      nameEn:'PDA Borrow–Return',
-      name:{ th:'ระบบยืม-คืน PDA', en:'PDA borrow & return tracking', mm:'PDA ငှား-ပြန်အပ် စနစ်' },
-      desc:{
-        th:'จัดการยืม-คืนเครื่องสแกนบาร์โค้ด พร้อมสิทธิ์ Admin / คลัง / ผู้ใช้งาน',
-        en:'Manage barcode scanner check-out and return, with Admin / Warehouse / User roles.',
-        mm:'ဘားကုဒ်စကင်နာ ငှားရမ်း-ပြန်အပ်ခြင်းကို စီမံရန် — Admin / ဂိုဒေါင် / အသုံးပြုသူ အခန်းကဏ္ဍများပါဝင်သည်'
-      },
-      site:'WFDC',
-      url:'https://script.google.com/macros/s/AKfycbxmApDINP7xxIFoKQkaEp1brHsTMTYS3-o7AfdPCar8Lu8K1NVJHYALPIeYhqD6Xsxjrw/exec',
-      status:'live'
+    url:'https://berstream.github.io/Claim-CS-Ticket/',
+  },
+  {
+    no:'03', icon:'box', color:['#C07A15','#f2b347'], site:'WFDC', type:'inv', status:'live',
+    nameEn:'WFDC Stationary Stock',
+    name:{ th:'ระบบเบิกจ่ายอุปกรณ์สำนักงานและเครื่องเขียน', en:'Office supplies & stationery requisition', mm:'ရုံးသုံးပစ္စည်းနှင့် စာရေးကိရိယာ ထုတ်ယူရေး စနစ်' },
+    desc:{
+      th:'เบิกอุปกรณ์สำนักงานและเครื่องเขียนสำหรับพนักงาน ตรวจสอบสต๊อกและประวัติการเบิก',
+      en:'Request office supplies and stationery, check stock levels, and view requisition history.',
+      mm:'ရုံးသုံးပစ္စည်းနှင့် စာရေးကိရိယာများ တောင်းခံခြင်း၊ စတော့လက်ကျန် စစ်ဆေးခြင်းနှင့် ထုတ်ယူမှတ်တမ်း ကြည့်ရှုခြင်း'
     },
-    {
-      no:'02', color:'#D8342A', icon:'ticket',
-      nameEn:'Claim & CS Ticket',
-      name:{ th:'ระบบ Ticket งาน Claim & CS', en:'Claim & CS case ticketing', mm:'Claim & CS လုပ်ငန်း Ticket စနစ်' },
-      desc:{
-        th:'Claim & CS เปิด-ปิดเคสงานกับแผนกต่างๆ พร้อมแจ้งเตือนตาม SLA',
-        en:'Claim & CS open and close case tickets with departments, with SLA-based alerts.',
-        mm:'Claim & CS သည် ဌာနအသီးသီးနှင့် Ticket ဖွင့်/ပိတ်ပြီး SLA အလိုက် သတိပေးချက် ပါဝင်သည်'
-      },
-      site:'WFDC',
-      url:'https://berstream.github.io/Claim-CS-Ticket/',
-      status:'live'
+    url:'https://berstream.github.io/WarehouseAsset/',
+  },
+  {
+    no:'04', icon:'container', color:['#0E7C6B','#2fc4a8'], site:'WFDC', type:'ops', status:'live',
+    nameEn:'Container Loading',
+    name:{ th:'ระบบบันทึกภาพโหลดสินค้าเข้าตู้', en:'Container loading photo log', mm:'ကွန်တိန်နာ ကုန်တင် ဓာတ်ပုံမှတ်တမ်း စနစ်' },
+    desc:{
+      th:'บันทึกรูปโหลดสินค้าเข้าตู้คอนเทนเนอร์รายเที่ยว พร้อม Dashboard และดึงข้อมูลย้อนหลัง',
+      en:'Photo-log every container loading trip, with a dashboard and history export (PDF / ZIP).',
+      mm:'ကုန်တင်ခရီးစဉ်တိုင်း ဓာတ်ပုံမှတ်တမ်းတင်ခြင်း — Dashboard နှင့် မှတ်တမ်းဟောင်း ထုတ်ယူခြင်း (PDF / ZIP) ပါဝင်သည်'
     },
-    {
-      no:'03', color:'#C07A15', icon:'box',
-      nameEn:'WFDC Stationary Stock',
-      name:{ th:'ระบบเบิกจ่ายอุปกรณ์สำนักงานและเครื่องเขียน', en:'Office supplies & stationery requisition', mm:'ရုံးသုံးပစ္စည်းနှင့် စာရေးကိရိယာ ထုတ်ယူရေး စနစ်' },
-      desc:{
-        th:'เบิกอุปกรณ์สำนักงานและเครื่องเขียนสำหรับพนักงาน ตรวจสอบสต๊อกและประวัติการเบิก',
-        en:'Request office supplies and stationery, check stock levels, and view requisition history.',
-        mm:'ရုံးသုံးပစ္စည်းနှင့် စာရေးကိရိယာများ တောင်းခံခြင်း၊ စတော့လက်ကျန် စစ်ဆေးခြင်းနှင့် ထုတ်ယူမှတ်တမ်း ကြည့်ရှုခြင်း'
-      },
-      site:'WFDC',
-      url:'https://berstream.github.io/WarehouseAsset/',
-      status:'live'
+    url:'https://berstream.github.io/Loader-Daily/',
+  },
+  {
+    no:'05', icon:'check', color:['#2E9E5B','#5fd38d'], site:'WFDC', type:'inv', status:'live',
+    nameEn:'WFDC Asset Checker',
+    name:{ th:'ระบบตรวจนับทรัพย์สิน', en:'Asset tracking & physical count', mm:'ပိုင်ဆိုင်မှု စစ်ဆေးရေး/ရေတွက်ရေး စနစ်' },
+    desc:{
+      th:'ตรวจนับและติดตามทรัพย์สินของ WFDC พร้อมรูปถ่ายและประวัติการตรวจ',
+      en:'Track and physically count WFDC assets, with photos and audit history.',
+      mm:'WFDC ပိုင်ဆိုင်ပစ္စည်းများကို ဓာတ်ပုံနှင့်အတူ ရေတွက်စစ်ဆေးပြီး မှတ်တမ်းသိမ်းဆည်းသည်'
     },
-    {
-      no:'04', color:'#0E7C6B', icon:'container',
-      nameEn:'Container Loading',
-      name:{ th:'ระบบบันทึกภาพโหลดสินค้าเข้าตู้', en:'Container loading photo log', mm:'ကွန်တိန်နာ ကုန်တင် ဓာတ်ပုံမှတ်တမ်း စနစ်' },
-      desc:{
-        th:'บันทึกรูปโหลดสินค้าเข้าตู้คอนเทนเนอร์รายเที่ยว พร้อม Dashboard และดึงข้อมูลย้อนหลัง',
-        en:'Photo-log every container loading trip, with a dashboard and history export (PDF / ZIP).',
-        mm:'ကုန်တင်ခရီးစဉ်တိုင်း ဓာတ်ပုံမှတ်တမ်းတင်ခြင်း — Dashboard နှင့် မှတ်တမ်းဟောင်း ထုတ်ယူခြင်း (PDF / ZIP) ပါဝင်သည်'
-      },
-      site:'WFDC',
-      url:'https://berstream.github.io/Loader-Daily/',
-      status:'live'
+    url:'https://berstream.github.io/WFDC-AssetChecker/',
+  },
+  {
+    no:'06', icon:'list', color:['#B15E2A','#e8925a'], site:'WFDC', type:'qa', status:'live',
+    nameEn:'5S Audit',
+    name:{ th:'ระบบตรวจ 5ส', en:'5S audit & corrective action', mm:'5S စစ်ဆေးရေး/ပြင်ဆင်ရေး စနစ်' },
+    desc:{
+      th:'หัวหน้างานเดินตรวจ ถ่ายภาพจุดที่ต้องแก้ไข มอบหมายโซนที่รับผิดชอบ แล้วตรวจปิดงาน',
+      en:'Supervisors inspect and photograph issues, assign them to the responsible zone, then review and close.',
+      mm:'ကြီးကြပ်သူများသည် စစ်ဆေးပြီး ပြဿနာများကို ဓာတ်ပုံရိုက်ကာ တာဝန်ရှိဇုန်သို့ ပေးအပ်ပြီး ပြန်လည်စစ်ဆေး ပိတ်သိမ်းသည်'
     },
-    {
-      no:'05', color:'#2E9E5B', icon:'check',
-      nameEn:'WFDC Asset Checker',
-      name:{ th:'ระบบตรวจนับทรัพย์สิน', en:'Asset tracking & physical count', mm:'ပိုင်ဆိုင်မှု စစ်ဆေးရေး/ရေတွက်ရေး စနစ်' },
-      desc:{
-        th:'ตรวจนับและติดตามทรัพย์สินของ WFDC พร้อมรูปถ่ายและประวัติการตรวจ',
-        en:'Track and physically count WFDC assets, with photos and audit history.',
-        mm:'WFDC ပိုင်ဆိုင်ပစ္စည်းများကို ဓာတ်ပုံနှင့်အတူ ရေတွက်စစ်ဆေးပြီး မှတ်တမ်းသိမ်းဆည်းသည်'
-      },
-      site:'WFDC',
-      url:'https://berstream.github.io/WFDC-AssetChecker/',
-      status:'live'
+    url:'https://berstream.github.io/5S-Project/',
+  },
+  {
+    no:'07', icon:'count', color:['#0F3B77','#3a72c4'], site:'WFDC', type:'inv', status:'dev',
+    nameEn:'WFDC Stocktake',
+    name:{ th:'ระบบตรวจนับสต๊อกสินค้า', en:'Warehouse stock count', mm:'ဂိုဒေါင် စတော့ရေတွက်ရေး စနစ်' },
+    desc:{
+      th:'ตรวจนับสต๊อกสินค้าในคลัง บันทึกผลการนับ และออกใบนับสินค้า',
+      en:'Count warehouse stock, record count results, and generate count sheets.',
+      mm:'ဂိုဒေါင်အတွင်း စတော့ရေတွက်ခြင်း၊ ရေတွက်ရလဒ် မှတ်တမ်းတင်ခြင်းနှင့် ရေတွက်စာရွက် ထုတ်ပေးခြင်း'
     },
-    {
-      no:'06', color:'#B15E2A', icon:'list',
-      nameEn:'5S Audit',
-      name:{ th:'ระบบตรวจ 5ส', en:'5S audit & corrective action', mm:'5S စစ်ဆေးရေး/ပြင်ဆင်ရေး စနစ်' },
-      desc:{
-        th:'หัวหน้างานเดินตรวจ ถ่ายภาพจุดที่ต้องแก้ไข มอบหมายโซนที่รับผิดชอบ แล้วตรวจปิดงาน',
-        en:'Supervisors inspect and photograph issues, assign them to the responsible zone, then review and close.',
-        mm:'ကြီးကြပ်သူများသည် စစ်ဆေးပြီး ပြဿနာများကို ဓာတ်ပုံရိုက်ကာ တာဝန်ရှိဇုန်သို့ ပေးအပ်ပြီး ပြန်လည်စစ်ဆေး ပိတ်သိမ်းသည်'
-      },
-      site:'WFDC',
-      url:'https://berstream.github.io/5S-Project/',
-      status:'live'
+    url:'https://wfdc-stocktake.web.app/',
+    notes:[ { tone:'amber', th:'อยู่ระหว่างการพัฒนา', en:'UNDER DEVELOPMENT', mm:'တည်ဆောက်နေဆဲ ဖြစ်သည်' } ],
+  },
+  {
+    no:'08', icon:'ticket', color:['#D8342A','#ff7a6b'], site:'CDC', type:'svc', status:'trial',
+    nameEn:'CDC Ticket System',
+    name:{ th:'ระบบแจ้งปัญหา IT — CDC', en:'IT issue reporting — CDC', mm:'IT ပြဿနာ တိုင်ကြားရေး — CDC' },
+    desc:{
+      th:'แจ้งปัญหา ติดตามสถานะ และอนุมัติงาน สำหรับไซต์ CDC',
+      en:'Report issues, track status, and approve work for the CDC site.',
+      mm:'CDC ဆိုက်အတွက် ပြဿနာတိုင်ကြားခြင်း၊ အခြေအနေစောင့်ကြည့်ခြင်းနှင့် အလုပ်အတည်ပြုခြင်း'
     },
-    {
-      no:'07', color:'#0F3B77', icon:'count',
-      nameEn:'WFDC Stocktake',
-      name:{ th:'ระบบตรวจนับสต๊อกสินค้า', en:'Warehouse stock count', mm:'ဂိုဒေါင် စတော့ရေတွက်ရေး စနစ်' },
-      desc:{
-        th:'ตรวจนับสต๊อกสินค้าในคลัง บันทึกผลการนับ และออกใบนับสินค้า',
-        en:'Count warehouse stock, record count results, and generate count sheets.',
-        mm:'ဂိုဒေါင်အတွင်း စတော့ရေတွက်ခြင်း၊ ရေတွက်ရလဒ် မှတ်တမ်းတင်ခြင်းနှင့် ရေတွက်စာရွက် ထုတ်ပေးခြင်း'
-      },
-      site:'WFDC',
-      url:'https://wfdc-stocktake.web.app/',
-      notes:[
-        { tone:'amber', th:'อยู่ระหว่างการพัฒนา', en:'UNDER DEVELOPMENT', mm:'တည်ဆောက်နေဆဲ ဖြစ်သည်' }
-      ],
-      status:'dev'
-    },
-    {
-      no:'08', color:'#D8342A', icon:'ticket',
-      nameEn:'CDC Ticket System',
-      name:{ th:'ระบบแจ้งปัญหา IT — CDC', en:'IT issue reporting — CDC', mm:'IT ပြဿနာ တိုင်ကြားရေး — CDC' },
-      desc:{
-        th:'แจ้งปัญหา ติดตามสถานะ และอนุมัติงาน สำหรับไซต์ CDC',
-        en:'Report issues, track status, and approve work for the CDC site.',
-        mm:'CDC ဆိုက်အတွက် ပြဿနာတိုင်ကြားခြင်း၊ အခြေအနေစောင့်ကြည့်ခြင်းနှင့် အလုပ်အတည်ပြုခြင်း'
-      },
-      site:'CDC',
-      url:'https://berstream.github.io/CDC-TicketSystems/Ticket.html',
-      notes:[
-        { tone:'red',    th:'สำหรับ CDC เท่านั้น', en:'CDC ONLY', mm:'CDC အတွက်သာ' },
-        { tone:'violet', th:'อยู่ระหว่างทดลองใช้บางแผนก', en:'Pilot — selected departments', mm:'အချို့ဌာနများတွင် စမ်းသပ်အသုံးပြုဆဲ' }
-      ],
-      status:'trial'
-    }
-  ];
+    url:'https://berstream.github.io/CDC-TicketSystems/Ticket.html',
+    notes:[
+      { tone:'red',    th:'สำหรับ CDC เท่านั้น',        en:'CDC ONLY',                     mm:'CDC အတွက်သာ' },
+      { tone:'violet', th:'อยู่ระหว่างทดลองใช้บางแผนก', en:'Pilot — selected departments', mm:'အချို့ဌာနများတွင် စမ်းသပ်အသုံးပြုဆဲ' }
+    ],
+  },
+];
 
-  // ==================================================================
-  //  ENGINE — ไม่ต้องแก้ส่วนล่างนี้
-  // ==================================================================
-  let lang = localStorage.getItem('wfdc_lang') || 'th';
-  if(!I18N[lang]) lang = 'th';
+/* ===== i18n ===== */
+const T = {
+  th:{pill:'WFDC Systems Board · วังน้อย', h1a:'ศูนย์รวมระบบไอที', sub:'รวมทุกระบบที่ใช้งานจริงหน้างานไว้ในที่เดียว เลือกระบบที่ต้องการแล้วกดเข้าใช้งานได้ทันที',
+      search:'ค้นหาระบบ...', all:'ทั้งหมด', open:'เข้าใช้งาน', try:'ทดลองใช้', soon:'กำลังจะมา', beta:'กำลังพัฒนา', pilot:'ทดลองใช้',
+      st_live:'พร้อมใช้งาน', st_dev:'กำลังพัฒนา', st_trial:'ทดลองใช้', empty:'ไม่พบระบบที่ค้นหา', count:'ระบบ',
+      ask:'หากมีข้อสงสัยเพิ่มเติม ติดต่อ', tel:'โทร.', mail:'อีเมล', foot:'บอร์ดนี้จะอัปเดตเรื่อย ๆ เมื่อมีระบบใหม่เปิดใช้งาน',
+      days:['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'], loc:'th-TH'},
+  en:{pill:'WFDC Systems Board · Wangnoi', h1a:'IT Systems Hub', sub:'Every internal system used on the floor, gathered in one place. Pick a system and get straight to work.',
+      search:'Search systems...', all:'All', open:'Open', try:'Preview', soon:'Coming soon', beta:'BETA', pilot:'PILOT',
+      st_live:'Live', st_dev:'In development', st_trial:'Pilot', empty:'No matching system found', count:'systems',
+      ask:'Need help? Contact', tel:'Tel.', mail:'Email', foot:'This board keeps growing as new systems go live.',
+      days:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'], loc:'en-GB'},
+  mm:{pill:'WFDC Systems Board · Wangnoi', h1a:'IT စနစ်များ စုစည်းရာ', sub:'လုပ်ငန်းခွင်တွင် အသုံးပြုနေသော စနစ်အားလုံးကို တစ်နေရာတည်းတွင် စုစည်းထားသည် — လိုအပ်သော စနစ်ကို ရွေးပြီး ချက်ချင်း အသုံးပြုနိုင်ပါသည်',
+      search:'စနစ် ရှာရန်...', all:'အားလုံး', open:'ဝင်ရောက်ရန်', try:'စမ်းသုံးရန်', soon:'မကြာမီ ရောက်လာမည်', beta:'တည်ဆောက်ဆဲ', pilot:'စမ်းသပ်ဆဲ',
+      st_live:'အသုံးပြုနိုင်ပြီ', st_dev:'တည်ဆောက်ဆဲ', st_trial:'စမ်းသပ်ဆဲ', empty:'ရှာဖွေသော စနစ် မတွေ့ပါ', count:'စနစ်',
+      ask:'အကူအညီ လိုပါက ဆက်သွယ်ရန်', tel:'ဖုန်း', mail:'အီးမေးလ်', foot:'စနစ်အသစ်များ ထပ်တိုးလာသည်နှင့်အမျှ ဤဘုတ်ကို အပ်ဒိတ်လုပ်သွားပါမည်',
+      days:['တနင်္ဂနွေ','တနင်္လာ','အင်္ဂါ','ဗုဒ္ဓဟူး','ကြာသပတေး','သောကြာ','စနေ'], loc:'en-GB'},
+};
 
-  function render(){
-    const t = I18N[lang];
-    document.documentElement.lang = (lang === 'mm') ? 'my' : lang;
+const ICONS = {
+  scan:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9v6M10.5 9v6M13 9v6M16.5 9v3"/>',
+  ticket:'<path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5v1.75a1.75 1.75 0 0 0 0 3.5v1.75A2.5 2.5 0 0 1 17.5 18h-11A2.5 2.5 0 0 1 4 15.5v-1.75a1.75 1.75 0 0 0 0-3.5V8.5Z"/><path d="M10 6v12" stroke-dasharray="1.6 2.4"/>',
+  box:'<path d="M3.5 8 12 3.5 20.5 8 12 12.5 3.5 8Z"/><path d="M3.5 8v8L12 20.5l8.5-4.5V8"/><path d="M12 12.5V20.5"/>',
+  container:'<rect x="2.5" y="7" width="19" height="10" rx="1.5"/><path d="M6.5 7v10M10.5 7v10M14.5 7v10M18.5 7v10"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2.5"/>',
+  check:'<rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V4"/><path d="M9 13l2 2 4-4.5"/>',
+  list:'<rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V4"/><path d="M9 12h6M9 16h6M9 9h3"/>',
+  count:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8"/><path d="M8 11h2M12 11h2M16 11h.5"/><path d="M8 15h2M12 15h2M16 15h.5"/><path d="M8 18.5h6"/>',
+  plus:'<path d="M12 6v12M6 12h12"/>',
+  alert:'<path d="M12 4 21 19.5H3L12 4Z"/><path d="M12 10v4"/><path d="M12 17h.01"/>',
+};
 
-    document.getElementById('bannerTitle').textContent = t.bannerTitle;
-    document.getElementById('bannerSub').textContent  = t.bannerSub;
-    document.getElementById('heroLead').textContent   = t.lead;
-    document.getElementById('statCount').textContent  = SYSTEMS.length + ' ' + t.count;
-    document.getElementById('footNote').textContent   = t.footer;
+let lang = 'th', curCat = 'all', q = '';
+try{ lang = localStorage.getItem('wfdc_lang') || 'th'; }catch(e){}
+if(!T[lang]) lang = 'th';
 
-    document.querySelectorAll('.lang-btn').forEach(b => {
-      b.classList.toggle('is-active', b.dataset.lang === lang);
-    });
+const $ = s => document.querySelector(s);
+const catOf = s => TAB_MODE === 'type' ? s.type : s.site;
+const catLabel = k => TAB_MODE === 'type' ? (TYPES[k]?.[lang] || k) : k;
 
-    const grid = document.getElementById('grid');
-    grid.innerHTML = '';
+function applyLang(){
+  document.documentElement.lang = lang === 'mm' ? 'my' : lang;
+  document.body.classList.toggle('mm', lang === 'mm');
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = T[lang][el.dataset.i18n]);
+  $('#q').placeholder = T[lang].search;
+  $('#nCount').textContent = SYSTEMS.length + ' ' + T[lang].count;
+  document.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+  renderTabs(); renderCards(); tick();
+}
 
-    SYSTEMS.forEach((s, i) => {
-      const card = document.createElement('a');
-      card.className = 'card';
-      card.href = s.url;
-      card.target = '_blank';
-      card.rel = 'noopener';
-      card.style.setProperty('--c', s.color);
-      card.style.animationDelay = (i * 0.06) + 's';
-      if(s.status !== 'live') card.classList.add('card--wip');
+function renderTabs(){
+  const tabs = $('#tabs');
+  if(TAB_MODE === 'none'){ tabs.style.display = 'none'; return; }
+  const counts = {all: SYSTEMS.length}, order = [];
+  SYSTEMS.forEach(s => { const k = catOf(s); if(!counts[k]){ counts[k] = 0; order.push(k); } counts[k]++; });
+  const keys = TAB_MODE === 'type' ? Object.keys(TYPES).filter(k => counts[k]) : order;
+  const list = [['all', T[lang].all], ...keys.map(k => [k, catLabel(k)])];
+  tabs.innerHTML = list.map(([k,label]) =>
+    `<button class="tab ${k===curCat?'on':''}" data-c="${k}">${label}<b>${counts[k]}</b></button>`).join('');
+}
 
-      const noteHtml = (s.notes || []).map(n => {
-        const toneClass = (n.tone && n.tone !== 'red') ? ' card__note--' + n.tone : '';
-        return `<div class="card__note${toneClass}">${ICONS.alert}<span>${n[lang]}</span></div>`;
-      }).join('');
+function svg(name){ return `<svg viewBox="0 0 24 24">${ICONS[name] || ICONS.box}</svg>`; }
 
-      const stKey = { live:'st_live', dev:'st_dev', trial:'st_trial' }[s.status] || 'st_live';
-      const stClass = { live:'live', dev:'dev', trial:'trial' }[s.status] || 'live';
-
-      card.innerHTML = `
-        <div class="card__bar">
-          <span class="card__icon">${ICONS[s.icon] || ''}</span>
-          <span class="card__barText">
-            <span class="card__no">NO. ${s.no}</span>
-            <span class="card__title">${s.nameEn}</span>
-          </span>
+function renderCards(){
+  const L = T[lang], kw = q.trim().toLowerCase();
+  const items = SYSTEMS.filter(s =>
+    (curCat === 'all' || catOf(s) === curCat) &&
+    (!kw || [s.no, s.nameEn, s.site, ...Object.values(s.name), ...Object.values(s.desc), TYPES[s.type]?.[lang]].join(' ').toLowerCase().includes(kw)));
+  let html = items.map((s,i) => {
+    const notes = (s.notes || []).map(n => `<div class="note note--${n.tone||'red'}">${svg('alert')}<span>${n[lang]}</span></div>`).join('');
+    const st = s.status || 'live';
+    const ribbon = st === 'dev' ? `<span class="ribbon">${L.beta}</span>` : st === 'trial' ? `<span class="ribbon ribbon--trial">${L.pilot}</span>` : '';
+    return `
+    <a class="card is-${st}" href="${s.url}" target="_blank" rel="noopener" style="animation-delay:${i*70}ms">${ribbon}
+      <div class="inner"><span class="shine"></span>
+        <div class="ctop">
+          <div class="icon" style="background:linear-gradient(135deg,${s.color[0]},${s.color[1]})">${svg(s.icon)}</div>
+          <div class="ttl"><span class="no">NO. ${s.no}</span><h3>${s.nameEn}</h3></div>
+          <span class="cat">${s.site}</span>
         </div>
-        <div class="card__body">
-          <p class="card__localName">${s.name[lang]}</p>
-          <p class="card__desc">${s.desc[lang]}</p>
-          ${noteHtml}
-          <div class="card__foot">
-            <span class="tag tag--site">${s.site}</span>
-            <span class="tag tag--${stClass}"><i></i>${t[stKey]}</span>
+        <div class="body">
+          <p class="lname">${s.name[lang]}</p>
+          <p class="desc">${s.desc[lang]}</p>
+          ${notes}
+          <div class="cfoot">
+            <span class="status"><i></i>${L['st_'+st]}</span>
+            <span class="go">${st === 'live' ? L.open : L.try}<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
           </div>
-          <span class="card__btn">${t.open} →</span>
         </div>
-      `;
-      grid.appendChild(card);
-    });
-
-    const nextNo = String(SYSTEMS.length + 1).padStart(2, '0');
-    const soon = document.createElement('div');
-    soon.className = 'card card--soon';
-    soon.style.animationDelay = (SYSTEMS.length * 0.06) + 's';
-    soon.innerHTML = `
-      <span class="soon__icon">${ICONS.plus}</span>
-      <p class="soon__no">NO. ${nextNo}</p>
-      <p class="soon__text">${t.soon}</p>
-    `;
-    grid.appendChild(soon);
-
-    tickClock();
+      </div>
+    </a>`}).join('');
+  if(curCat === 'all' && !kw){
+    html += `<div class="card soon" style="animation-delay:${items.length*70}ms"><div class="inner">
+      <span class="soon-ic">${svg('plus')}</span><span class="no">NO. ${String(SYSTEMS.length+1).padStart(2,'0')}</span><span class="soon-t">${L.soon}</span></div></div>`;
   }
+  html += `<div class="empty" style="display:${items.length?'none':'block'}">${L.empty}</div>`;
+  $('#cards').innerHTML = html;
+  requestAnimationFrame(() => document.querySelectorAll('.card').forEach(c => c.classList.add('show')));
+  bindTilt();
+}
 
-  function tickClock(){
-    const el = document.getElementById('statClock');
-    if(!el) return;
-    const d = new Date();
-    const hh = String(d.getHours()).padStart(2,'0');
-    const mm = String(d.getMinutes()).padStart(2,'0');
-    el.textContent = I18N[lang].updated + ' ' + hh + ':' + mm;
-  }
-
-  document.querySelectorAll('.lang-btn').forEach(b => {
-    b.addEventListener('click', () => {
-      lang = b.dataset.lang;
-      localStorage.setItem('wfdc_lang', lang);
-      render();
+function bindTilt(){
+  document.querySelectorAll('a.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+      card.style.transform = `perspective(900px) rotateX(${(y/r.height-.5)*-6}deg) rotateY(${(x/r.width-.5)*6}deg) translateY(-6px)`;
+      card.querySelector('.inner').style.setProperty('--mx', x+'px');
+      card.querySelector('.inner').style.setProperty('--my', y+'px');
     });
+    card.addEventListener('mouseleave', () => card.style.transform = '');
   });
+  document.querySelectorAll('.card').forEach(card =>
+    card.addEventListener('animationend', () => { card.style.opacity = 1; card.classList.remove('show'); }, {once:true}));
+}
 
-  render();
-  setInterval(tickClock, 30000);
+/* ===== Events ===== */
+document.querySelectorAll('.lang button').forEach(b => b.onclick = () => {
+  lang = b.dataset.l; try{ localStorage.setItem('wfdc_lang', lang); }catch(e){} applyLang();
+});
+$('#tabs').addEventListener('click', e => { const t = e.target.closest('.tab'); if(!t) return; curCat = t.dataset.c; renderTabs(); renderCards(); });
+$('#q').addEventListener('input', e => { q = e.target.value; renderCards(); });
+
+/* ===== Clock ===== */
+function tick(){
+  const n = new Date(), L = T[lang];
+  $('#time').textContent = n.toLocaleTimeString('en-GB',{hour12:false});
+  $('#date').textContent = L.days[n.getDay()] + ' ' + n.toLocaleDateString(L.loc,{day:'numeric',month:'short',year:'numeric'});
+}
+setInterval(tick, 1000);
+$('#yr').textContent = new Date().getFullYear();
+
+/* ===== Cursor glow ===== */
+const glow = $('#glow');
+let gx = innerWidth/2, gy = innerHeight/3, tx = gx, ty = gy;
+addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+(function loop(){ gx += (tx-gx)*.12; gy += (ty-gy)*.12; glow.style.left = gx+'px'; glow.style.top = gy+'px'; requestAnimationFrame(loop); })();
+
+/* ===== Particles ===== */
+const cv = $('#particles'), ctx = cv.getContext('2d');
+let W, H, P = [], mouse = {x:-999, y:-999};
+const COLORS = ['#ffffff','#cfe6ff','#ff8a95','#ffffff'];
+function resize(){
+  W = cv.width = innerWidth * devicePixelRatio; H = cv.height = innerHeight * devicePixelRatio;
+  cv.style.width = innerWidth+'px'; cv.style.height = innerHeight+'px';
+  const n = Math.min(90, Math.floor(innerWidth*innerHeight/16000));
+  P = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.35*devicePixelRatio, vy:(Math.random()-.5)*.35*devicePixelRatio, r:(Math.random()*1.8+.6)*devicePixelRatio, c:COLORS[Math.floor(Math.random()*COLORS.length)]}));
+}
+addEventListener('resize', resize);
+addEventListener('mousemove', e => { mouse.x = e.clientX*devicePixelRatio; mouse.y = e.clientY*devicePixelRatio; });
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const link = 130*devicePixelRatio;
+  for(const p of P){
+    const dx = p.x-mouse.x, dy = p.y-mouse.y, d = Math.hypot(dx,dy);
+    if(d < 120*devicePixelRatio){ p.x += dx/d*1.2; p.y += dy/d*1.2; }
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0||p.x>W) p.vx*=-1; if(p.y<0||p.y>H) p.vy*=-1;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7); ctx.fillStyle = p.c; ctx.globalAlpha = .75; ctx.fill();
+  }
+  ctx.lineWidth = devicePixelRatio*.6;
+  for(let i=0;i<P.length;i++) for(let j=i+1;j<P.length;j++){
+    const a=P[i], b=P[j], d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(d<link){ ctx.globalAlpha=(1-d/link)*.25; ctx.strokeStyle='#ffffff'; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+  }
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(draw);
+}
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){ resize(); draw(); }
+
+applyLang();
 </script>
-
 </body>
 </html>
