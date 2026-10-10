@@ -70,6 +70,7 @@ h1 .g{background:linear-gradient(90deg,var(--sky),#fff 40%,var(--red) 75%,var(--
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;padding-bottom:40px}
 .card{position:relative;border-radius:22px;padding:1px;background:linear-gradient(135deg,rgba(63,182,255,.5),rgba(255,255,255,.06) 40%,rgba(255,59,79,.45));opacity:0;transform:translateY(30px) scale(.97);transition:transform .35s cubic-bezier(.2,.8,.3,1),box-shadow .35s;transform-style:preserve-3d;will-change:transform}
 .card.show{animation:cardIn .7s cubic-bezier(.2,.8,.3,1) forwards}
+.card.in{opacity:1;transform:none}
 @keyframes cardIn{to{opacity:1;transform:none}}
 .card:hover{box-shadow:0 22px 50px rgba(0,0,0,.45),0 0 40px rgba(63,182,255,.18)}
 .inner{position:relative;height:100%;border-radius:21px;padding:24px;background:linear-gradient(160deg,rgba(26,66,140,.9),rgba(14,40,96,.92));overflow:hidden;display:flex;flex-direction:column}
@@ -243,6 +244,8 @@ body.mm h1{font-size:clamp(28px,4.6vw,50px);line-height:1.35}
 .soon-ic svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round}
 .card.soon .no{color:rgba(255,255,255,.75)}
 .soon-t{font-size:16px;font-weight:500}
+.card.soon.wide .inner{min-height:110px;flex-direction:row;gap:16px}
+.card.soon.wide .soon-ic{width:46px;height:46px}
 .credit span[data-i18n]{opacity:.8}
 </style>
 </head>
@@ -517,9 +520,30 @@ function renderCards(){
   }
   html += `<div class="empty" style="display:${items.length?'none':'block'}">${L.empty}</div>`;
   $('#cards').innerHTML = html;
+  fitSoon();
   requestAnimationFrame(() => document.querySelectorAll('.card').forEach(c => c.classList.add('show')));
   bindTilt();
 }
+
+/* การ์ด "กำลังจะมา" ยืดเต็มช่องที่เหลือของแถวสุดท้าย → กริดสมมาตรทุกขนาดจอ */
+function fitSoon(){
+  const grid = $('#cards'), soon = grid.querySelector('.card.soon');
+  const n = grid.querySelectorAll('a.card').length;
+  if(soon) soon.style.gridColumn = '';
+  grid.style.gridTemplateRows = '';
+  const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
+  let rows = Math.ceil(n / cols), tail = '';
+  if(soon){
+    const rem = cols - (n % cols);
+    soon.style.gridColumn = 'span ' + rem;
+    soon.classList.toggle('wide', rem > 1);
+    if(rem === cols) tail = ' auto';      // แถบ "กำลังจะมา" แยกแถว สูงตามเนื้อหา
+    else rows = Math.ceil((n + 1) / cols); // อยู่ในแถวเดียวกับการ์ด
+  }
+  // ทุกแถวของการ์ดสูงเท่ากัน = เท่ากับแถวที่สูงที่สุด
+  if(rows) grid.style.gridTemplateRows = `repeat(${rows}, 1fr)${tail}`;
+}
+addEventListener('resize', fitSoon);
 
 function bindTilt(){
   document.querySelectorAll('a.card').forEach(card => {
@@ -532,7 +556,7 @@ function bindTilt(){
     card.addEventListener('mouseleave', () => card.style.transform = '');
   });
   document.querySelectorAll('.card').forEach(card =>
-    card.addEventListener('animationend', () => { card.style.opacity = 1; card.classList.remove('show'); }, {once:true}));
+    card.addEventListener('animationend', () => { card.classList.add('in'); card.classList.remove('show'); }, {once:true}));
 }
 
 /* ===== Events ===== */
