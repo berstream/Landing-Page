@@ -395,22 +395,7 @@ const SYSTEMS = [
     notes:[ { tone:'amber', th:'อยู่ระหว่างการพัฒนา', en:'UNDER DEVELOPMENT', mm:'တည်ဆောက်နေဆဲ ဖြစ်သည်' } ],
   },
   {
-    no:'08', icon:'ticket', color:['#D8342A','#ff7a6b'], site:'CDC', type:'svc', status:'trial',
-    nameEn:'CDC Ticket System',
-    name:{ th:'ระบบแจ้งปัญหา IT — CDC', en:'IT issue reporting — CDC', mm:'IT ပြဿနာ တိုင်ကြားရေး — CDC' },
-    desc:{
-      th:'แจ้งปัญหา ติดตามสถานะ และอนุมัติงาน สำหรับไซต์ CDC',
-      en:'Report issues, track status, and approve work for the CDC site.',
-      mm:'CDC ဆိုက်အတွက် ပြဿနာတိုင်ကြားခြင်း၊ အခြေအနေစောင့်ကြည့်ခြင်းနှင့် အလုပ်အတည်ပြုခြင်း'
-    },
-    url:'https://berstream.github.io/CDC-TicketSystems/Ticket.html',
-    notes:[
-      { tone:'red',    th:'สำหรับ CDC เท่านั้น',        en:'CDC ONLY',                     mm:'CDC အတွက်သာ' },
-      { tone:'violet', th:'อยู่ระหว่างทดลองใช้บางแผนก', en:'Pilot — selected departments', mm:'အချို့ဌာနများတွင် စမ်းသပ်အသုံးပြုဆဲ' }
-    ],
-  },
-  {
-    no:'09', icon:'tag', color:['#0E6E96','#49c2e8'], site:'WFDC', type:'ops', status:'live',
+    no:'08', icon:'tag', color:['#0E6E96','#49c2e8'], site:'WFDC', type:'ops', status:'live',
     nameEn:'Tag Inbound',
     name:{ th:'ระบบพิมพ์แท็กสินค้าขาเข้า', en:'Inbound item tag printing', mm:'အဝင်ကုန်ပစ္စည်း တံဆိပ် ပုံနှိပ်စနစ်' },
     desc:{
@@ -419,6 +404,17 @@ const SYSTEMS = [
       mm:'အဝင်ကုန်ပစ္စည်းများအတွက် ဓာတ်ပုံပါ တံဆိပ်များ ပုံနှိပ်ခြင်း — A5 အရွယ်၊ A4 တစ်ရွက်လျှင် ၂ ခု'
     },
     url:'https://script.google.com/macros/s/AKfycbwrFXSlfeMuD1oEA-N4_avWSqssjaz_RK0CrFpHU6yXmtWleQl71GzI2T8sZWyKU5itnQ/exec',
+  },
+  {
+    no:'09', icon:'clock', color:['#6A4C93','#a882dc'], site:'WFDC', type:'ops', status:'live',
+    nameEn:'Agency Attendance',
+    name:{ th:'ระบบลงเวลาพนักงาน Agency', en:'Agency staff attendance', mm:'Agency ဝန်ထမ်း အလုပ်ချိန် မှတ်တမ်းစနစ်' },
+    desc:{
+      th:'บันทึกเวลาเข้า-ออกงานของพนักงาน Agency และติดตามการมาทำงานรายวัน',
+      en:'Record clock-in and clock-out for agency staff and track daily attendance.',
+      mm:'Agency ဝန်ထမ်းများ၏ အလုပ်ဝင်/ထွက်ချိန်ကို မှတ်တမ်းတင်ပြီး နေ့စဉ် တက်ရောက်မှုကို ခြေရာခံသည်'
+    },
+    url:'https://berstream.github.io/Agency-Attendance/',
   },
 ];
 
