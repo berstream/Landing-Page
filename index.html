@@ -491,7 +491,7 @@ const SYSTEMS = [
    คู่มือ (GUIDES) — ผูกกับระบบด้วย guide:'ชื่อ' ใน SYSTEMS
    groups : แยกตามบทบาท (มีกลุ่มเดียวก็ได้ — title ใส่ null)
    steps  : 'หัวข้อ — รายละเอียด' (ส่วนก่อน " — " จะเป็นตัวหนา)
-   files  : kind = manual | staff | admin | gps · url = ไฟล์ในโฟลเดอร์ manuals/
+   files  : kind = manual | staff | admin | gps · url = ชื่อไฟล์ PDF ที่อัปไว้ใน repo (ระดับเดียวกับ index.html)
    ระบบไหนยังไม่มีคู่มือ ไม่ต้องใส่ guide — ปุ่มคู่มือจะไม่แสดง
    ===================================================== */
 const GUIDES = {
@@ -551,7 +551,7 @@ const GUIDES = {
       en:'Says you\'re outside the area? Move to an open spot away from metal roofs, wait 10–20 seconds and search location again. Still stuck? See "How to turn on GPS".',
       mm:'"ဧရိယာပြင်ပ" ဟု ပြလျှင် — သံခေါင်မိုးနှင့် ဝေးသော ဟင်းလင်းပြင်သို့ ထွက်ပြီး 10–20 စက္ကန့် စောင့်ကာ တည်နေရာ ပြန်ရှာပါ · မရသေးလျှင် "GPS ဖွင့်နည်း" ဖိုင်ကို ကြည့်ပါ'
     },
-    files:[ { kind:'manual', url:'manuals/agency-attendance-manual.pdf' }, { kind:'gps', url:'manuals/agency-attendance-gps.pdf' } ]
+    files:[ { kind:'manual', url:'agency-attendance-manual.pdf' }, { kind:'gps', url:'agency-attendance-gps.pdf' } ]
   },
 
   asset: {
@@ -589,7 +589,7 @@ const GUIDES = {
       en:'Don\'t delete retired assets — change the status to "Disposed" instead. Deleting can\'t be undone and erases all history.',
       mm:'အသုံးမပြုတော့သော ပစ္စည်းကို မဖျက်ပါနှင့် — အခြေအနေကို "ဖယ်ရှားပြီး" သို့ ပြောင်းပါ။ ဖျက်လျှင် ပြန်ယူ၍ မရ၊ မှတ်တမ်းအားလုံး ပျောက်သည်'
     },
-    files:[ { kind:'manual', url:'manuals/asset-checker-manual.pdf' } ]
+    files:[ { kind:'manual', url:'asset-checker-manual.pdf' } ]
   },
 
   loader: {
@@ -642,7 +642,7 @@ const GUIDES = {
       en:'Work done 00:00–07:59 counts toward the previous day (cut-off 08:00) and shows as "night of…". Times come from the server, so changing the phone clock has no effect.',
       mm:'00:00–07:59 အတွင်း အလုပ်သည် ယခင်နေ့ စာရင်းတွင် ပါဝင်သည် (08:00 တွင် ရက်ဖြတ်)။ အချိန်ကို server မှ ယူသဖြင့် ဖုန်းအချိန် ပြောင်း၍ အကျိုးမရှိ'
     },
-    files:[ { kind:'staff', url:'manuals/container-loading-loader.pdf' }, { kind:'admin', url:'manuals/container-loading-admin.pdf' } ]
+    files:[ { kind:'staff', url:'container-loading-loader.pdf' }, { kind:'admin', url:'container-loading-admin.pdf' } ]
   },
 
   stocktake: {
@@ -695,7 +695,7 @@ const GUIDES = {
       en:'Seeing "This document is already processed"? That sheet is fully entered — no need to rescan. Entered something wrong? Request edit access from the admin.',
       mm:'"ဤစာရွက် ပြီးဆုံးပြီ" ဟု ပြလျှင် ထပ်စကင်မဖတ်ပါနှင့်။ မှားထည့်မိလျှင် Admin ထံ ပြင်ခွင့် တောင်းပါ'
     },
-    files:[ { kind:'manual', url:'manuals/stocktake-manual.pdf' } ]
+    files:[ { kind:'manual', url:'stocktake-manual.pdf' } ]
   },
 
   claim: {
@@ -742,7 +742,7 @@ const GUIDES = {
       en:'Deadline extensions: Urgent +6 h (8 h max) · Standard +24 h (48 h max), Claim & CS only. Closed cases can\'t be reopened.',
       mm:'အချိန်တိုးခြင်း — Urgent +6 နာရီ (စုစုပေါင်း 8 အထိ) · Standard +24 နာရီ (48 အထိ)၊ Claim & CS သာ ပြုလုပ်နိုင်။ ပိတ်ပြီးသော case ကို ပြန်ဖွင့်၍ မရ'
     },
-    files:[ { kind:'manual', url:'manuals/claim-cs-ticket-manual.pdf' } ]
+    files:[ { kind:'manual', url:'claim-cs-ticket-manual.pdf' } ]
   },
 };
 
