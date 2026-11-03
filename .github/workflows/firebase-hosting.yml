@@ -36,6 +36,8 @@ jobs:
             mkdir -p "_site/$slug"
             rsync -a --exclude '.git' "/tmp/apps/$repo/" "_site/$slug/"
           done
+          # Real landing page lives in landing.html; index.html at repo root is the GitHub Pages redirect
+          cp landing.html _site/index.html
           # Apps that used absolute paths on GitHub Pages
           if [ -f _site/warehouse-asset/manifest.json ]; then
             sed -i 's#"/WarehouseAsset/#"/warehouse-asset/#g' _site/warehouse-asset/manifest.json
