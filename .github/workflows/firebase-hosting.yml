@@ -15,17 +15,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Checkout Claim & CS Ticket
-        uses: actions/checkout@v4
-        with:
-          repository: berstream/claim-cs-ticket
-          path: apps/claim-cs-ticket
-
-      - name: Stage site
+      - name: Stage site (Landing Page + apps)
         run: |
-          mkdir -p _site/claim-cs-ticket
-          rsync -a --exclude '.git' --exclude '.github' --exclude 'firebase.json' --exclude '.firebaserc' --exclude 'README.md' --exclude '_site' --exclude 'apps' ./ _site/
-          rsync -a --exclude '.git' apps/claim-cs-ticket/ _site/claim-cs-ticket/
+          set -e
+          mkdir -p _site /tmp/apps
+          rsync -a --exclude '.git' --exclude '.github' --exclude 'firebase.json' --exclude '.firebaserc' --exclude 'README.md' --exclude '_site' ./ _site/
+          # repo:slug
+          for pair in \
+            "claim-cs-ticket:claim-cs-ticket" \
+            "Picker-Check-100:picker-check-100" \
+            "Loader-Daily:loader-daily" \
+            "WFDC-AssetChecker:asset-checker" \
+            "5S-Project:5s-project" \
+            "Agency-Attendance:agency-attendance" \
+            "WarehouseAsset:warehouse-asset" \
+            "CDC-TicketSystems:cdc-ticket-systems"; do
+            repo="${pair%%:*}"; slug="${pair##*:}"
+            rm -rf "/tmp/apps/$repo"
+            git clone -q --depth 1 "https://github.com/berstream/$repo" "/tmp/apps/$repo"
+            mkdir -p "_site/$slug"
+            rsync -a --exclude '.git' "/tmp/apps/$repo/" "_site/$slug/"
+          done
+          # Apps that used absolute paths on GitHub Pages
+          if [ -f _site/warehouse-asset/manifest.json ]; then
+            sed -i 's#"/WarehouseAsset/#"/warehouse-asset/#g' _site/warehouse-asset/manifest.json
+          fi
+          # CDC-TicketSystems has no index.html; serve Ticket.html at the folder root
+          if [ ! -f _site/cdc-ticket-systems/index.html ] && [ -f _site/cdc-ticket-systems/Ticket.html ]; then
+            cp _site/cdc-ticket-systems/Ticket.html _site/cdc-ticket-systems/index.html
+          fi
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
