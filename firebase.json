@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": ".",
-    "ignore": ["firebase.json", ".firebaserc", ".github/**", ".git/**", "**/.*", "README.md"]
+    "public": "_site",
+    "ignore": ["**/.*", "**/node_modules/**"]
   }
 }

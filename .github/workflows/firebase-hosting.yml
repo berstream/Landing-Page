@@ -3,6 +3,8 @@ name: Deploy Landing Page to Firebase Hosting
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "0 1 * * *"   # daily 08:00 Bangkok, picks up app repo changes
   workflow_dispatch:
 
 jobs:
@@ -12,6 +14,19 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+
+      - name: Checkout Claim & CS Ticket
+        uses: actions/checkout@v4
+        with:
+          repository: berstream/claim-cs-ticket
+          path: apps/claim-cs-ticket
+
+      - name: Stage site
+        run: |
+          mkdir -p _site/claim-cs-ticket
+          rsync -a --exclude '.git' --exclude '.github' --exclude 'firebase.json' --exclude '.firebaserc' --exclude 'README.md' --exclude '_site' --exclude 'apps' ./ _site/
+          rsync -a --exclude '.git' apps/claim-cs-ticket/ _site/claim-cs-ticket/
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
