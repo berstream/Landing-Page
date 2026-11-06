@@ -236,6 +236,12 @@ body.mm h1{font-size:clamp(28px,4.6vw,50px);line-height:1.35}
 .card.is-trial:hover .go svg{background:#fff;stroke:#8b5cf6}
 .ribbon{position:absolute;z-index:3;top:16px;right:-34px;transform:rotate(35deg);background:linear-gradient(90deg,#ffb020,#ffd21f);color:#5a3a00;font-size:11px;font-weight:600;letter-spacing:.5px;padding:3px 40px;box-shadow:0 3px 8px rgba(0,0,0,.18);pointer-events:none}
 .ribbon--trial{background:linear-gradient(90deg,#8b5cf6,#b794ff);color:#fff}
+.ribbon--green{background:linear-gradient(90deg,#18b45a,#4ade80);color:#fff}
+.note--green{background:#ecfdf3;color:#14824a;border:1px solid #b7efcf}
+.card.is-dev.is-green .status{color:#14924a}.card.is-dev.is-green .status i{background:#18b45a;box-shadow:0 0 8px #18b45a}
+.card.is-dev.is-green .go{background:#ecfdf3;color:#14824a;border-color:#b7efcf}.card.is-dev.is-green .go svg{background:#18b45a}
+.card.is-dev.is-green:hover .go{background:#18b45a;color:#fff;border-color:#18b45a;box-shadow:0 6px 16px rgba(24,180,90,.35)}
+.card.is-dev.is-green:hover .go svg{background:#fff;stroke:#18b45a}
 .card{overflow:hidden}
 .card.is-dev .ctop .cat,.card.is-trial .ctop .cat{margin-right:26px}
 /* coming soon */
@@ -453,8 +459,8 @@ const SYSTEMS = [
     },
     url:'https://wfdc-stocktake.web.app/',
     guide:'stocktake',
-    ribbonText:'Beta Test', statusText:'Beta Test',
-    notes:[ { tone:'amber', th:'Beta Test', en:'Beta Test', mm:'Beta Test' } ],
+    ribbonText:'Beta Test', statusText:'Beta Test', tone:'green',
+    notes:[ { tone:'green', th:'Beta Test', en:'Beta Test', mm:'Beta Test' } ],
   },
   {
     no:'07', icon:'clock', color:['#0E6E96','#49c2e8'], site:'WFDC', type:'hr', status:'live',
@@ -870,9 +876,9 @@ function renderCards(){
   let html = items.map((s,i) => {
     const notes = (s.notes || []).map(n => `<div class="note note--${n.tone||'red'}">${svg('alert')}<span>${n[lang]}</span></div>`).join('');
     const st = s.status || 'live';
-    const ribbon = st === 'dev' ? `<span class="ribbon">${s.ribbonText || L.beta}</span>` : st === 'trial' ? `<span class="ribbon ribbon--trial">${L.pilot}</span>` : '';
+    const ribbon = st === 'dev' ? `<span class="ribbon${s.tone?' ribbon--'+s.tone:''}">${s.ribbonText || L.beta}</span>` : st === 'trial' ? `<span class="ribbon ribbon--trial">${L.pilot}</span>` : '';
     return `
-    <a class="card is-${st}" href="${s.url}" target="_blank" rel="noopener" style="animation-delay:${i*70}ms">${ribbon}
+    <a class="card is-${st}${s.tone?' is-'+s.tone:''}" href="${s.url}" target="_blank" rel="noopener" style="animation-delay:${i*70}ms">${ribbon}
       <div class="inner"><span class="shine"></span>
         <div class="ctop">
           <div class="icon" style="background:linear-gradient(135deg,${s.color[0]},${s.color[1]})">${svg(s.icon)}</div>
