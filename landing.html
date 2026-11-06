@@ -453,7 +453,8 @@ const SYSTEMS = [
     },
     url:'https://wfdc-stocktake.web.app/',
     guide:'stocktake',
-    notes:[ { tone:'amber', th:'อยู่ระหว่างการพัฒนา', en:'UNDER DEVELOPMENT', mm:'တည်ဆောက်နေဆဲ ဖြစ်သည်' } ],
+    ribbonText:'Beta Test', statusText:'Beta Test',
+    notes:[ { tone:'amber', th:'Beta Test', en:'Beta Test', mm:'Beta Test' } ],
   },
   {
     no:'07', icon:'clock', color:['#0E6E96','#49c2e8'], site:'WFDC', type:'hr', status:'live',
@@ -869,7 +870,7 @@ function renderCards(){
   let html = items.map((s,i) => {
     const notes = (s.notes || []).map(n => `<div class="note note--${n.tone||'red'}">${svg('alert')}<span>${n[lang]}</span></div>`).join('');
     const st = s.status || 'live';
-    const ribbon = st === 'dev' ? `<span class="ribbon">${L.beta}</span>` : st === 'trial' ? `<span class="ribbon ribbon--trial">${L.pilot}</span>` : '';
+    const ribbon = st === 'dev' ? `<span class="ribbon">${s.ribbonText || L.beta}</span>` : st === 'trial' ? `<span class="ribbon ribbon--trial">${L.pilot}</span>` : '';
     return `
     <a class="card is-${st}" href="${s.url}" target="_blank" rel="noopener" style="animation-delay:${i*70}ms">${ribbon}
       <div class="inner"><span class="shine"></span>
@@ -883,7 +884,7 @@ function renderCards(){
           <p class="desc">${s.desc[lang]}</p>
           ${notes}
           <div class="cfoot">
-            <span class="status"><i></i>${L['st_'+st]}</span>
+            <span class="status"><i></i>${s.statusText || L['st_'+st]}</span>
             <span class="cact">${s.guide && GUIDES[s.guide] ? `<span class="gbtn" role="button" tabindex="0" data-g="${s.no}" aria-label="${L.g_btn} — ${s.nameEn}">${svg('book')}<span>${L.g_btn}</span></span>` : ''}<span class="go">${st === 'live' ? L.open : L.try}<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
           </div>
         </div>
